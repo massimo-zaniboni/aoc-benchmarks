@@ -1,3 +1,10 @@
+#!/usr/bin/env bash
 
-podman exec -it aoc-benchmarks bash
+# Connect to the running container
 
+DOCKER_CMD=podman
+# or
+# DOCKER=docker
+
+
+$DOCKER_CMD exec -it aoc-benchmarks bash

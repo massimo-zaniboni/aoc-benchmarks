@@ -1,55 +1,53 @@
+# Status
 
-Customize https://salsa.debian.org/benchmarksgame-team/benchmarksgame for supporting the benchmarks of AoC 2021 programs.
+Work in progress: nothing is working!!!
 
-The results are pubblished on https://aoc-benchmarks.dokmelody.org/
+# Design and rationale
+
+I customized https://salsa.debian.org/benchmarksgame-team/benchmarksgame for supporting the benchmarks of AoC 2021 programs.
+
+I reused entirely their *bencher* utility. The *bencher* uses ``python-gtop``. I were not able to compile it under NixOS, my OS of choice, so I created an Ubuntu Docker image, supporting it. This Ubuntu Docker container it is used also for compiling and benchmarking the code.
+
+The directory ``bencher`` will be also a volume of the ``aoc-benchmarks`` container, inside the container ``/host`` directory. Every change done by the Docker container will be stored in the native file system.
+
+I were not able to generate the website using the *benchmarksgame* project, so I created a Common-Lisp utility generating a static-web-site, starting from the results of the benchmarks. Every new web-site must be produced customizing the code of this utility.
 
 # Requirements
 
-* Docker or Podman
+Docker or Podman for generating the container.
+
+A lot of space will be used for the Ubuntu image, tools and benchmark data sets.
 
 # Installation
 
-For installing the image on ``Dockerfile``
+TODO explain about the final dimension
+TODO explain about the volume on benchmarksgame
 
-TODO
+Set in ``container-...`` files the ``docker`` or ``podman`` command, changing the content of ``DOCKER_CMD`` variable.
 
-``` sh
-docker build -t aoc-benchmarks .
-
-# or
-
-podman build -t aoc-benchmarks .
-```
-
-Run the intance:
+For installing the container according the instructions on ``Dockerfile``
 
 ``` sh
-podman run -d -p 8000:8000 -v "$(pwd)/benchmaksgame:/host" --name aoc-benchmarks aoc-benchmarks
+./container-reinstall.sh
 ```
 
-
-Debugging the web server
+For accessing the container with a shell
 
 ``` sh
-podman ps -a
-podman attach aoc-benchmarks
-podman logs --follow aoc-benchmarks 
+./container-login.sh
 ```
 
-Accessing the container with a shell
+For stopping the container
 
 ``` sh
-podman exec -it aoc-benchmarks bash
+./container-stop.sh
 ```
 
-Removing the container
+For removing completely the container and the image
 
 ``` sh
-podman stop aoc-benchmarks
-podman rm aoc-benchmarks
+./container-prune.sh
 ```
-
-I created ``container-...`` shell scripts.
 
 # How To
 
@@ -135,3 +133,6 @@ In case of errors during testing, check the directory ``benchmaksgame/bencher/ru
 
 TODO
 
+# Credits
+
+The ``bencher`` is based on https://salsa.debian.org/benchmarksgame-team/benchmarksgame project released under BSD license. See its content for proper credits.

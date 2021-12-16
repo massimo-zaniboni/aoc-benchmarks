@@ -29,5 +29,3 @@ do
   ln --symbolic -r $f $fd1/$fn
 done
 
-# Start a demo web-server
-/usr/bin/php -d short_open_tag=on -S 0.0.0.0:8000 -t /host/mybenchmarks/websites

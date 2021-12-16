@@ -6,4 +6,4 @@ DOCKER_CMD=podman
 # or
 # DOCKER=docker
 
-$DOCKER_CMD restart aoc-benchmarks
+$DOCKER_CMD stop aoc-benchmarks
