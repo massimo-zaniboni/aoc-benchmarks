@@ -6,5 +6,4 @@ DOCKER_CMD=podman
 # or
 # DOCKER=docker
 
-
-$DOCKER_CMD exec -it aoc-benchmarks bash
+$DOCKER_CMD run --rm -it  -v "$(pwd)/bencher:/bencher" aoc-benchmarks /bin/bash

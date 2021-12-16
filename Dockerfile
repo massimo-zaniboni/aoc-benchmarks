@@ -20,7 +20,7 @@ RUN apt-get -y update && apt-get -y upgrade && \
     apt-get -y install \
                  python2 python2-dev \
                  python-gtk2 libgtop2-7 libgtop2-dev \
-                 ndiff highlight less bash curl vim nano \
+                 ndiff highlight less bash curl vim nano lrzip \
                  wget bzip2 pixz build-essential gcc \
                  php php-cli php-common php-gmp && \
     mkdir -p /downloads && \
@@ -47,24 +47,11 @@ RUN cd /downloads && \
     wget https://beta.quicklisp.org/quicklisp.lisp && \
     yes "" | sbcl --script install-quicklisp.lisp
 
-# Download task data-sets
+# Configure the container
 
-RUN apt-get -y install lrzip && \
-    mkdir -p /downloads/datasets && \
-    echo "Download datasets 01 version 01" && \
-    cd /downloads/datasets && \
-    wget https://downloads.asterisell.com/aoc/tmp-datasets-01.tar.lrz && \
-    lrzuntar tmp-datasets-01.tar.lrz && \
-    rm -f tmp-datasets-01.tar.lrz
-
-COPY docker-files/small-datasets /downloads/small-datasets
-
-# Run the container services
-
-COPY docker-files/entrypoint.sh /entrypoint.sh
+COPY docker-files/init-datasets.sh /init-datasets.sh
 
 EXPOSE 8000
 
-VOLUME  ["/host"]
-WORKDIR /host
-ENTRYPOINT ["/usr/bin/bash", "/entrypoint.sh"]
+VOLUME  ["/bencher"]
+WORKDIR /bencher

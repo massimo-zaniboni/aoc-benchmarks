@@ -8,5 +8,5 @@ tmp/
 build
 htmlcov
 
-aoc-benchmarks/benchmaksgame/bencher/tmp
-aoc-benchmarks/benchmaksgame/bencher/tmp-datasets
+bencher/tmp
+bencher/tmp-datasets

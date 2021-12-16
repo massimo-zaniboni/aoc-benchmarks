@@ -8,7 +8,7 @@ I customized https://salsa.debian.org/benchmarksgame-team/benchmarksgame for sup
 
 I reused entirely their *bencher* utility. The *bencher* uses ``python-gtop``. I were not able to compile it under NixOS, my OS of choice, so I created an Ubuntu Docker image, supporting it. This Ubuntu Docker container it is used also for compiling and benchmarking the code.
 
-The directory ``bencher`` will be also a volume of the ``aoc-benchmarks`` container, inside the container ``/host`` directory. Every change done by the Docker container will be stored in the native file system.
+The directory ``bencher`` will be also a volume of the ``aoc-benchmarks`` container, inside the container directory ``/bencher``. Every change done by the Docker container will be stored in the native file system.
 
 I were not able to generate the website using the *benchmarksgame* project, so I created a Common-Lisp utility generating a static-web-site, starting from the results of the benchmarks. Every new web-site must be produced customizing the code of this utility.
 
@@ -20,30 +20,39 @@ A lot of space will be used for the Ubuntu image, tools and benchmark data sets.
 
 # Installation
 
-TODO explain about the final dimension
-TODO explain about the volume on benchmarksgame
-
 Set in ``container-...`` files the ``docker`` or ``podman`` command, changing the content of ``DOCKER_CMD`` variable.
 
 For installing the container according the instructions on ``Dockerfile``
 
 ``` sh
-./container-reinstall.sh
+./container-install.sh
 ```
 
-For accessing the container with a shell
+This command will also install the benchmark datasets, in ``bencher/tmp``, downloading them from a remote server.
+
+# Running benchmarks
+
+For executing the benchmarks
+
+``` sh
+./container-run-new-benchmarks.sh
+
+# or for forcing a complete benchmark
+
+./container-run-all-benchmarks.sh  
+```
+
+For accessing and testing the container behaviour, using a shell
 
 ``` sh
 ./container-login.sh
 ```
 
-For stopping the container
+The ``/bencher`` directory is a volume mapped to the local ``bencher`` directory of the project. So every change to it will be permanent, while changes to other directories will be lost after the exit. Changes can be tested in the container, then written in the``Dockerfile``. The image can be upgraded with the content of the new ``Dockerfile`` calling again ``./container-install.sh``: the content of ``bencher`` directory will be not touched, except the directory ``bencher/tmp`` containing the datasets.
 
-``` sh
-./container-stop.sh
-```
+# Uninstall
 
-For removing completely the container and the image
+For removing completely the image, in case the project is not anymore needed
 
 ``` sh
 ./container-prune.sh
@@ -94,6 +103,8 @@ Datasets are downloaded and decompressed in ``aoc-benchmarks/benchmaksgame/bench
 
 ### Generating new compressed data-sets
 
+TODO
+
 For generating new data-sets:
 
 * create a directory ``tmp-datasets``
@@ -136,3 +147,7 @@ TODO
 # Credits
 
 The ``bencher`` is based on https://salsa.debian.org/benchmarksgame-team/benchmarksgame project released under BSD license. See its content for proper credits.
+
+AoC 2021 big data sets are based (i.e. a copy of) on https://the-tk.com/project/aoc2021-bigboys.html
+
+Advent of Code problems are at https://adventofcode.com/

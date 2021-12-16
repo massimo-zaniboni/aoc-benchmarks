@@ -6,8 +6,6 @@ DOCKER_CMD=podman
 # or
 # DOCKER=docker
 
-$DOCKER_CMD stop aoc-benchmarks
-$DOCKER_CMD rm aoc-benchmarks
 $DOCKER_CMD rmi aoc-benchmarks
 
 echo "For removing image files execute"

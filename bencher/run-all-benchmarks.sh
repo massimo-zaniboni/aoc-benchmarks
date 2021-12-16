@@ -12,4 +12,4 @@ rm -r -f run_logs/*
 rm -r -f run_markup/*
 rm -r -f summary/*
 
-./run-new-tests.sh
+./run-new-benchmarks.sh
