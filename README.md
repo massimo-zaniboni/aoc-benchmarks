@@ -10,6 +10,10 @@ I reused entirely their *bencher* utility. The *bencher* uses ``python-gtop``. I
 
 The directory ``bencher`` will be also a volume of the ``aoc-benchmarks`` container, inside the container directory ``/bencher``. Every change done by the Docker container will be stored in the native file system.
 
+# Current problems
+
+For some reasons, with ``Podman version 3.0.1``, it works only if executed by the root user. With ``Docker`` it works correctly.
+
 # Requirements
 
 Docker or Podman for generating the container.
@@ -18,9 +22,9 @@ A lot of space will be used for the Ubuntu image, tools and benchmark data sets.
 
 # Installation
 
-Set in ``container.sh`` ``docker`` or ``podman`` command, changing the content of ``DOCKER_CMD`` variable.
+Set the variable ``DOCKER_CMD`` in ``container.sh``, for using ``Podman`` or ``Docker``.
 
-For installing the container according the instructions on ``Dockerfile``
+For installing the container, using the instructions on ``Dockerfile``:
 
 ``` sh
 ./container.sh install

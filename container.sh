@@ -2,7 +2,7 @@
 
 DOCKER_CMD=podman
 # or
-# DOCKER=docker
+# DOCKER_CMD=docker
 
 VOL="-v "$(pwd)/bencher:/bencher" -v "$(pwd)/viewer/mybenchmarks:/viewer""
 
