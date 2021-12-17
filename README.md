@@ -18,12 +18,12 @@ A lot of space will be used for the Ubuntu image, tools and benchmark data sets.
 
 # Installation
 
-Set in ``container-...`` files the ``docker`` or ``podman`` command, changing the content of ``DOCKER_CMD`` variable.
+Set in ``container.sh`` ``docker`` or ``podman`` command, changing the content of ``DOCKER_CMD`` variable.
 
 For installing the container according the instructions on ``Dockerfile``
 
 ``` sh
-./container-install.sh
+./container.sh install
 ```
 
 This command will also install the benchmark datasets, in ``bencher/tmp``, downloading them from a remote server.
@@ -33,27 +33,30 @@ This command will also install the benchmark datasets, in ``bencher/tmp``, downl
 For executing the benchmarks
 
 ``` sh
-./container-run-new-benchmarks.sh
+./container.sh run-new
 
 # or for forcing a complete benchmark
 
-./container-run-all-benchmarks.sh  
+./container.sh run-all
+
 ```
 
 For accessing and testing the container behaviour, using a shell
 
 ``` sh
-./container-login.sh
+./container.sh login
 ```
 
-The ``/bencher`` directory is a volume mapped to the local ``bencher`` directory of the project. So every change to it will be permanent, while changes to other directories will be lost after the exit. Changes can be tested in the container, then written in the``Dockerfile``. The image can be upgraded with the content of the new ``Dockerfile`` calling again ``./container-install.sh``: the content of ``bencher`` directory will be not touched, except the directory ``bencher/tmp`` containing the datasets.
+The ``/bencher`` directory is a volume mapped to the local ``bencher`` directory of the project. So every change to it will be permanent, while changes to other directories will be lost after the exit. Changes can be tested in the container, then written in the``Dockerfile``. The image can be upgraded with the content of the new ``Dockerfile`` calling again ``./container.sh install``: the content of ``bencher`` directory will be not touched, except the directory ``bencher/tmp`` containing the datasets.
+
+The directory ``viewer/mybenchmarks/`` is mapped to the volume ``/viewer`` inside the container image.
 
 # Uninstall
 
 For removing completely the image, in case the project is not anymore needed
 
 ``` sh
-./container-prune.sh
+./container.sh prune
 ```
 
 # Viewing benchmark results
