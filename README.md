@@ -10,8 +10,6 @@ I reused entirely their *bencher* utility. The *bencher* uses ``python-gtop``. I
 
 The directory ``bencher`` will be also a volume of the ``aoc-benchmarks`` container, inside the container directory ``/bencher``. Every change done by the Docker container will be stored in the native file system.
 
-I were not able to generate the website using the *benchmarksgame* project, so I created a Common-Lisp utility generating a static-web-site, starting from the results of the benchmarks. Every new web-site must be produced customizing the code of this utility.
-
 # Requirements
 
 Docker or Podman for generating the container.
@@ -58,6 +56,13 @@ For removing completely the image, in case the project is not anymore needed
 ./container-prune.sh
 ```
 
+# Viewing benchmark results
+
+TODO I plan to create a different custom viewer, supporting more fields and classifications for benchmarks.
+
+
+
+
 # How To
 
 ## Adding a new program to benchmark
@@ -71,6 +76,8 @@ The ``task_name`` is the same name of the directory.
 ``-1`` or ``-2`` are the version of the code.
 
 The ``.hs-1.hs`` is a repetition of the language name.
+
+IMPORTANT: never use "-" in the task name, i.e. "fast_path" is good, "fast-path" no.
 
 TODO refresh of task
 TODO rebuild all
@@ -107,17 +114,14 @@ TODO
 
 For generating new data-sets:
 
-* create a directory ``tmp-datasets``
+* create a directory ``datasets-XY``
 * for each program ``foo`` create a directory ``foo``
 * for each test suite numbered like 100 or 1000 create ``foo-input100.txt`` and ``foo-input1000.txt``
 * in case of tests like ``aoc2021_day1a`` and ``aoc2021_day1b`` sharing the same input data set, put inside ``aoc2021-day1b`` directory a relative symbolik link, e.g. ``ln --symbolic -r aoc2021_day1a/aoc2021-day1a-input100.txt aoc2021-day1b/aoc2021_day1b-input100.txt``
-* create a tarred lrzip archive ``lrztar tmp-datasets``
-* rename it to a unique name like ``mv tmp-datasets.tar.lrz datasets-01.tar.lrz``
-* add instructions at the end of ``Dockerfile`` for adding its content to ``aoc-benchmarks/benchmaksgame/bencher/tmp`` directory
-* rebuild the image
-* recreate the Docker container
-
-IMPORTANT: never use "-" in the name, except the final "-inputXXX" part.
+* create a tarred lrzip archive ``lrztar datasets-XY``
+* add instructions in `docker-files/init-datasets.sh` for adding its content to ``aoc-benchmarks/benchmaksgame/bencher/tmp`` directory
+* rebuild the image with `./container-install.sh`
+* launch new tests with `./container-run-new-benchmarks.sh`
 
 ## Adding a new language
 
@@ -130,7 +134,7 @@ Assuming a new language ``foo`` with suffix ``f``
 * study the settings in ``benchmaksgame/bencher/makefiles/my.linux.ini`` and ``benchmaksgame/bencher/makefiles/my.linux.Makefile`` and replicate them for the new ``foo`` language
 * add the language description in ``benchmaksgame/mybenchmarks/desc/lang.csv``. The description contains also a list of preferred programming languages to compare against it
 
-IMPORTANT: never use "-" in the names.
+IMPORTANT: never use "-" in the names of languages.
 
 # Learned lessons
 
