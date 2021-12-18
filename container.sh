@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 DOCKER_CMD=podman
-# or
-# DOCKER_CMD=docker
+# or DOCKER_CMD=docker
 
-VOL="-v "$(pwd)/bencher:/bencher" -v "$(pwd)/viewer/mybenchmarks:/viewer""
+VOL="-v "$(pwd)/benchmarks:/benchmarks""
 
 case $1 in
       install)
@@ -33,15 +32,19 @@ case $1 in
       ;;
 
       login)
-      $DOCKER_CMD run --rm -it  $VOL aoc-benchmarks /bin/bash
+      $DOCKER_CMD run --rm -it $VOL aoc-benchmarks /bin/bash
       ;;
 
       run-all)
-      $DOCKER_CMD run --rm -it  $VOL aoc-benchmarks ./run-all-benchmarks.sh
+      $DOCKER_CMD run --rm -it  $VOL aoc-benchmarks /bin/bash -c "cd /benchmarks/bencher && ./run-all-benchmarks.sh"
       ;;
 
       run-new)
-      $DOCKER_CMD run --rm -it  $VOL aoc-benchmarks ./run-new-benchmarks.sh
+      $DOCKER_CMD run --rm -it  $VOL aoc-benchmarks /bin/bash -c "cd /benchmarks/bencher && ./run-new-benchmarks.sh"
+      ;;
+
+      web)
+      $DOCKER_CMD run --rm -it -p 8000:8000 $VOL aoc-benchmarks /bin/bash -c "cd /benchmarks/mybenchmarks/websites && php -S 0.0.0.0:8000 -d short_open_tag=On"
       ;;
 
       help|*)
@@ -57,7 +60,9 @@ case $1 in
       echo "        execute all benchmarks"
       echo "    run-new"
       echo "        update benchmarks"
-      echo "    help"
+      echo "    web"
+      echo "        httpd web server on port 8000"
+       echo "    help"
       echo "        this help"
       ;;
 esac

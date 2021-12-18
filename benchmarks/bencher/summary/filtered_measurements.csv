@@ -1,0 +1,3 @@
+name,lang,id,n,size(B),cpu(s),mem(KB),status,load,elapsed(s)
+aoc2021_day6,hs,1,3,693,0.000,7684456,-2,99% 8%,16.609
+aoc2021_day6,lisp,1,3,811,244.512,142720,0,55% 46%,244.049

@@ -53,5 +53,5 @@ COPY docker-files/init-datasets.sh /init-datasets.sh
 
 EXPOSE 8000
 
-VOLUME  ["/bencher" "/viewer"]
-WORKDIR /bencher
+VOLUME  ["/benchmarks"]
+WORKDIR /benchmarks
