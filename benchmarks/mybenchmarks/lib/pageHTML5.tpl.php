@@ -9,9 +9,18 @@ echo $Style, "\n", '<link rel="shortcut icon" href="./favicon.ico">', "\n";
 if (isset($LinkCanonical)) { echo $LinkCanonical, "\n"; }
 ?>
 <header id="top">
-  <h3 id="<?=SITE_NAME;?>"><a href="<?=CORE_SITE;?>"><?=PLATFORM_NAME;?> | My Benchmarks</a></h3>
+  <h3 id="<?=SITE_NAME;?>"><a href="<?=CORE_SITE;?>">AoC Benchmarks</a></h3>
 </header>
 <?=$PageBody;?>
+
+<footer>
+  <nav>
+    <ul>
+      <li><a href="https://github.com/massimo-zaniboni/aoc-benchmarks"><span>Source Code Repository</span></a>
+    </ul>
+  </nav>
+</footer>
+
 <?php
  ob_end_flush();
 ?>

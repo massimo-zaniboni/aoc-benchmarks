@@ -25,10 +25,3 @@ NOTES:
     </pre>
   </section>
 </article>
-<footer>
-  <nav>
-    <ul>
-      <li><a href="../license.html"><span>License</span></a>
-    </ul>
-  </nav>
-</footer>

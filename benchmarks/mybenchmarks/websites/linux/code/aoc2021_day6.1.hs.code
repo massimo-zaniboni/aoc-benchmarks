@@ -1,0 +1,65 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
+-- author: giorgio
+-- note: written in a hurry during the contest
+
+module Main where
+
+import System.IO
+import qualified Data.Map as M
+import System.Environment
+
+-- State represent the fishes&apos; state
+type State = M.Map Int Integer
+-- a state :: State is such that
+-- lookup i state represent the number of fishes
+-- that will reproduce in i-days.
+
+start :: State
+start = M.fromAscList [(i,0) | i&lt;- [0..8]]
+
+readInput :: [Int] -&gt; State
+readInput = ausil start
+  where
+    ausil acc [] = acc
+    ausil acc (fish:fishes) =
+      ausil (M.update (\x -&gt; Just (x+1)) fish acc) fishes
+
+($&gt;) :: a -&gt; (a -&gt; b) -&gt; b
+x $&gt; f = f x
+
+-- unsafe extraction of values from State
+extract :: State -&gt; Int -&gt; Integer
+extract state n =
+  case (M.lookup n state) of
+    Just val -&gt; val
+
+update :: State -&gt; State
+update state =
+  M.empty $&gt;
+  M.insert 0 (extract state 1) $&gt;
+  M.insert 1 (extract state 2) $&gt;
+  M.insert 2 (extract state 3) $&gt;
+  M.insert 3 (extract state 4) $&gt;
+  M.insert 4 (extract state 5) $&gt;
+  M.insert 5 (extract state 6) $&gt;
+  M.insert 6 ((extract state 7)+(extract state 0)) $&gt;
+  M.insert 7 (extract state 8) $&gt;
+  M.insert 8 (extract state 0)
+
+iter :: Int -&gt; (a -&gt; a) -&gt; a -&gt; a
+iter 0 f init = init
+iter n f init = iter (n-1) f (f init)
+
+summer :: State -&gt; Integer
+summer state = foldl (\acc -&gt; \index -&gt; acc + (extract state index)) 0 [0..8]
+
+main :: IO()
+main = do
+  raw &lt;- getLine
+  let list = read (&apos;[&apos;:raw++&quot;]&quot;) :: [Int]
+  let init = readInput list
+  iterCountS &lt;- getLine
+  let iterCount :: Int = read iterCountS
+  let val = iter iterCount update init
+  print (summer val)
