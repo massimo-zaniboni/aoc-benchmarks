@@ -1,5 +1,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
+-- author: giorgio
+-- note: written in a hurry during the contest
+
 module Main where
 
 import System.IO

@@ -137,10 +137,11 @@ foreach($Succeeded as $d){
   $id = $d[DATA_ID];
   $HtmlName = $HtmlName.IdName($d[DATA_ID]);
   $nav = '"./program.php?test='.$SelectedTest.'&amp;lang='.$k.'&amp;id='.$id.'"';
+  $navToLangMeasurements = '"./measurements.php?lang='.$k.'"';
   echo "        <td><a href=$nav><span>", "$HtmlName</span></a>\n";
 
   $e = PTime($d[DATA_ELAPSED]);
-  echo "        <td", $elapsed_td, ">", $e, "\n";
+  echo "        <td", $elapsed_td, "><a href=$navToLangMeasurements><span>", $e, "</span></a>", "\n";
 
   if ($d[DATA_MEMORY]<=0){ $kb = '?'; } else { $kb = number_format((double)$d[DATA_MEMORY]); }
   echo "        <td", $mem_td, ">", $kb, "\n";
@@ -167,9 +168,12 @@ foreach($Langs as $k => $v){
       $id = $d[DATA_ID];
       $HtmlName = $Langs[$k][LANG_FULL].IdName($d[DATA_ID]);
       $nav = '"./program.php?test='.$SelectedTest.'&amp;lang='.$k.'&amp;id='.$id.'"';
+      $navToLangMeasurements = '"./measurements.php?lang='.$k.'"';
       echo "        <td><a href=$nav><span>", "$HtmlName</span></a>\n";
 
-      $message = StatusMessage($d[DATA_STATUS]);
+      $message = "<a href=$navToLangMeasurements><span>"
+                 . StatusMessage($d[DATA_STATUS])
+                 . "</span></a>";
 
       $elapsed_message = '';
       $elapsed_td = '';
@@ -195,7 +199,7 @@ foreach($Langs as $k => $v){
         $cpu_td = $t_class;
       }
 
-      echo "        <td", $elapsed_td, ">", $elapsed_message, "\n";
+      echo "        <td", $elapsed_td, ">",  $elapsed_message,  "\n";
       echo "        <td", $mem_td, ">", $mem_message, "\n";
       echo "        <td", $gzbytes_td, ">", $gzbytes_message, "\n";
       echo "        <td", $cpu_td, ">", $cpu_message, "\n";

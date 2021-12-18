@@ -14,3 +14,4 @@ mkdir -p $VIEWER_DIR/code
 
 cp summary/* $VIEWER_DIR/data/.
 cp run_markup/* $VIEWER_DIR/code/.
+cp run_logs/* $VIEWER_DIR/code/.
