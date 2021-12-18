@@ -60,7 +60,7 @@ foreach($Data as $row){
         echo "        <tr>\n";
         echo "          <th>source\n";
         echo "          <th>secs\n";
-        echo "          <th>N\n";
+        echo "          <th>data size\n";
         echo "          <th>mem\n";
         echo "          <th>gz\n";
         echo "          <th>cpu\n";
