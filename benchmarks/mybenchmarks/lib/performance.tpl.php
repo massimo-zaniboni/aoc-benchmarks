@@ -67,7 +67,6 @@ if ($Sort=='elapsed'){
   </div>
   <section>
     <div>
-        <p>Always look at the source code.  
       <h2></h2>
     </div>
     <table>

@@ -1,0 +1,156 @@
+
+;; SPDX-License-Identifier: LGPL-3.0-or-later
+;; Copyright (C) 2021 Massimo Zaniboni &lt;mzan&#64;dokmelody.org&gt;
+
+;; WARNING: I&apos;m learning CL
+
+(ql:quickload :trivia)     ;; common macro and functions and optimal pattern matching
+(ql:quickload :alexandria) ;; common CL extensions
+(ql:quickload :trivial-types)  ;; common types
+(ql:quickload :defstar)    ;; add type annotations
+(ql:quickload :str)        ;; Common string manipulation functions
+(ql:quickload :parse-float)
+(ql:quickload :iterate)
+(ql:quickload :let-plus)          ;; extend &quot;let&quot;
+(ql:quickload :array-operations)  ;; rich management of arrays
+
+(defpackage :main
+  (:import-from :alexandria)
+  (:import-from :trivial-types :proper-list :tuple)
+  (:use :cl :defstar :trivia :parse-float :iterate :let-plus)
+  (:export main))
+
+(in-package :main)
+
+(declaim (optimize (speed 3) (debug 0) (safety 0)))
+
+(defun grow-vector-upto (vect new-size value)
+  (iter (for i from (fill-pointer vect) below new-size)
+        (vector-push-extend value vect)))
+
+; # Day 3b
+
+; I store the strings in a trie, so I can choose in an efficient way the more frequent character.
+
+(defclass trie ()
+  (
+   (parent
+    :type (or trie null)
+    :documentation &quot;The parent trie.&quot;
+    :initform nil
+    :accessor trie-parent
+    :initarg :parent)
+   (child-0
+    :type (or trie null)
+    :documentation &quot;The children with prefix 0.&quot;
+    :accessor trie-child-0
+    :initform nil)
+   (child-1
+    :type (or trie null)
+    :documentation &quot;The children with prefix 1.&quot;
+    :accessor trie-child-1
+    :initform nil)
+   (count-children
+    :type integer
+    :documentation &quot;Count children nodes.&quot;
+    :initform 0
+    :accessor trie-count-children)
+   )
+  (:documentation &quot;A trie of 0|1, counting the number of strings.&quot;)
+  )
+
+(defun* (trie-child -&gt; (or trie null)) ((self trie) (prefix fixnum))
+  &quot;Select the child using a number as prefix.&quot;
+  (if (zerop prefix)
+      (trie-child-0 self)
+      (trie-child-1 self)))
+
+(defun* (trie-child-count -&gt; integer) ((self trie) (prefix fixnum))
+  &quot;Count the children of each brach.&quot;
+  (let ((child (trie-child self prefix)))
+    (if (null child) 0 (trie-count-children child))))
+
+(defun* (trie-add-prefix! -&gt; trie) ((self trie) (prefix number))
+  (let* ((child
+           (if (zerop prefix)
+               (trie-child-0 self)
+               (trie-child-1 self)))
+         (new-child
+            (if (null child)
+                (make-instance &apos;trie :parent self)
+                child)))
+    (if (zerop prefix)
+        (setf (trie-child-0 self) new-child)
+        (setf (trie-child-1 self) new-child))
+
+    new-child))
+
+(defun* (trie-show -&gt; null) ((out stream) (self trie) (prefix string))
+  (format out &quot;(~s:~d &quot; prefix (trie-count-children self))
+
+  (unless (null (trie-child-0 self))
+    (trie-show out (trie-child-0 self) (concatenate &apos;string prefix &quot;0&quot;)))
+
+   (unless (null (trie-child-1 self))
+    (trie-show out (trie-child-1 self) (concatenate &apos;string prefix &quot;1&quot;)))
+
+  (format out &quot; )&quot;))
+
+(defun* (char01-&gt;number -&gt; number) ((c character))
+  (cond
+    ((char= c #\0) 0)
+    ((char= c #\1) 1)
+    (t (error &quot;Unexpected character&quot;))))
+
+(defun* (trie-insert-string! -&gt; null) ((self trie) (cs string))
+  &quot;Insert a string in the trie.&quot;
+  (iter (for c in-string cs)
+        (for tt initially self then (trie-add-prefix! tt (char01-&gt;number c)))
+        (finally
+          (iter (for ttt first tt then (trie-parent ttt))
+            (while ttt)
+            (after-each (incf (trie-count-children ttt))))
+         (return nil))))
+
+(defun* (file-&gt;trie -&gt; trie) ()
+  &quot;Read numbers from file and produce the trie.&quot;
+    (iter (for line in-stream *standard-input* using #&apos;read-line)
+          (with tt = (make-instance &apos;trie))
+          (after-each (trie-insert-string! tt line))
+          (finally (return tt))))
+
+(defun* (seq01-rev-&gt;number -&gt; number) ((self (proper-list (or number null))))
+  &quot;Convert a sequence of 0 and 1 in reverse order, to a number.&quot;
+  (iter (for c in-sequence self)
+        (for e first 1 then (* e 2))
+        (if (not (null c)) (sum (* e c)))))
+
+(defun* (trie-rating -&gt; number) ((self trie) (follow-max? boolean))
+  &quot;Return oxygen or CO2 scrubber generator, following max or min digits.&quot;
+
+  (iter (for tt01
+             initially (cons self nil)
+             then (let* ((tt (car tt01))
+                         (child0 (trie-child-0 tt))
+                         (child1 (trie-child-1 tt))
+                         (c0 (trie-child-count tt 0))
+                         (c1 (trie-child-count tt 1)))
+                   (cond
+                     ((and (zerop c0) (zerop c1)) (cons nil nil))
+                     ((zerop c0) (cons child1 1))
+                     ((zerop c1) (cons child0 0))
+                     (t (if follow-max?
+                            (if (&gt;= c1 c0) (cons child1 1) (cons child0 0))
+                            (if (&lt;= c0 c1) (cons child0 0) (cons child1 1)))))))
+        (while (car tt01))
+        (collect (cdr tt01) at beginning into seq01-rev)
+        (finally
+           (return (seq01-rev-&gt;number seq01-rev)))))
+
+(defun day3b ()
+  (let* ((trie (file-&gt;trie))
+         (oxygen (trie-rating trie t))
+         (co2 (trie-rating trie nil)))
+     (values (* oxygen co2) oxygen co2 (format nil &quot;~B&quot; oxygen) (format nil &quot;~B&quot; co2))))
+
+(defun main () (format t &quot;~a~%&quot; (day3b)))

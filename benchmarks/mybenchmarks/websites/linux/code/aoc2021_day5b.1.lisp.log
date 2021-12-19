@@ -1,0 +1,101 @@
+
+Sun, 19 Dec 2021 02:42:38 GMT
+
+MAKE:
+sbcl --disable-debugger --load "aoc2021_day5b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+To load "trivia":
+  Load 1 ASDF system:
+    trivia
+; Loading "trivia"
+
+To load "alexandria":
+  Load 1 ASDF system:
+    alexandria
+; Loading "alexandria"
+
+To load "trivial-types":
+  Load 1 ASDF system:
+    trivial-types
+; Loading "trivial-types"
+
+To load "defstar":
+  Load 1 ASDF system:
+    defstar
+; Loading "defstar"
+
+To load "str":
+  Load 1 ASDF system:
+    str
+; Loading "str"
+...
+To load "parse-float":
+  Load 1 ASDF system:
+    parse-float
+; Loading "parse-float"
+
+To load "iterate":
+  Load 1 ASDF system:
+    iterate
+; Loading "iterate"
+
+To load "let-plus":
+  Load 1 ASDF system:
+    let-plus
+; Loading "let-plus"
+
+To load "array-operations":
+  Load 1 ASDF system:
+    array-operations
+; Loading "array-operations"
+
+[undoing binding stack and other enclosing state... done]
+[performing final GC... done]
+[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1172+996+19861+20294+25972... done]
+[saving current Lisp image into app_lisp:
+writing 0 bytes from the read-only space at 0x50000000
+writing 736 bytes from the static space at 0x50100000
+writing 48185344 bytes from the dynamic space at 0x1000000000
+writing 2080768 bytes from the immobile space at 0x50200000
+writing 13066240 bytes from the immobile space at 0x52a00000
+done]
+
+2.38s to complete and log all make actions
+
+COMMAND LINE:
+./app_lisp 0 < aoc2021-day5b-input20000.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+   0: fp=0x7fddeac9fda8 pc=0x52b08afd MAIN::DAY5B
+   1: fp=0x7fddeac9fdc0 pc=0x531913fb MAIN::MAIN
+   2: fp=0x7fddeac9fe60 pc=0x5308f309 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   3: fp=0x7fddeac9ff28 pc=0x5308f10a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   4: fp=0x7fddeac9ffc8 pc=0x5308eeb3 SB-IMPL::START-LISP
+
+Heap exhausted during garbage collection: 0 bytes available, 16 requested.
+Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
+ 1    5978      0      0      0      0   3482    3   154917776     74864    10737418       0   0  2.9260
+ 2   10451      0      1  12187      0   6710 15546   480751296    102720     2000000   22637   0  0.0000
+ 3       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 4       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 5       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 6    1554      5   1028    222      0    131    0    47215488    953472     2000000    2937   0  0.0000
+ 7    4021      0      0  10445      0   9321 2612   389680416     45792     2000000       0   0  0.0000
+           Total bytes allocated    =    1072564976
+           Dynamic-space-size bytes =    1073741824
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = true
+   *STOP-FOR-GC-PENDING* = false
+fatal error encountered in SBCL pid 28 tid 28:
+Heap exhausted, game over.
+

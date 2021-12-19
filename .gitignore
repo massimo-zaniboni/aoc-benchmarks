@@ -1,6 +1,5 @@
 .DS_Store
 .idea
-*.log
 tmp/
 
 *.py[cod]
@@ -8,5 +7,7 @@ tmp/
 build
 htmlcov
 
-bencher/tmp
-bencher/tmp-datasets
+benchmarks/bencher/tmp
+benchmarks/bencher/run_logs/
+benchmarks/bencher/run_markup/
+

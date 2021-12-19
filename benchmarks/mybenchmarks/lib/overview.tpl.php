@@ -58,8 +58,25 @@ foreach($Data as $k => $row){
 echo "    </tbody></table>", "\n";
 
 ?>
+    <table>
+<?
+  echo "      <tbody>\n";
+  echo "      <tr>\n";
+  echo "        <th>Unsolved benchmarks\n";
+  echo "      </tr>\n";
 
+foreach($UnsolvedTests as $testKey) {
+  $test = $Tests[$testKey];
+  $testname = $test[TEST_NAME];
+  $testlink = $test[TEST_LINK];
+
+  echo "      <tr>\n";
+  echo '      <td><a href="./performance.php?test=', $testlink, '"><span>', $testname, "</span></a>\n";
+}
+echo "    </tbody></table>", "\n";
+?>
   </section>
+
 </article>
 <footer>
   <nav>

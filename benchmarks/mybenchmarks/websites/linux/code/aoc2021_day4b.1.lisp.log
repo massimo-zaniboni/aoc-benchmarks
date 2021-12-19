@@ -1,0 +1,271 @@
+
+Sun, 19 Dec 2021 02:39:39 GMT
+
+MAKE:
+sbcl --disable-debugger --load "aoc2021_day4b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+To load "trivia":
+  Load 1 ASDF system:
+    asdf
+  Install 8 Quicklisp releases:
+    alexandria closer-mop introspect-environment iterate
+    lisp-namespace trivia trivial-cltl2 type-i
+; Fetching #<URL "http://beta.quicklisp.org/archive/introspect-environment/2021-08-07/introspect-environment-20210807-git.tgz">
+; 9.37KB
+==================================================
+9,592 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/type-i/2019-12-27/type-i-20191227-git.tgz">
+; 5.79KB
+==================================================
+5,932 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/trivial-cltl2/2020-03-25/trivial-cltl2-20200325-git.tgz">
+; 6.23KB
+==================================================
+6,384 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/lisp-namespace/2021-10-20/lisp-namespace-20211020-git.tgz">
+; 9.55KB
+==================================================
+9,780 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/closer-mop/2021-12-09/closer-mop-20211209-git.tgz">
+; 23.10KB
+==================================================
+23,655 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/iterate/2021-05-31/iterate-release-b0f9a9c6-git.tgz">
+; 338.01KB
+==================================================
+346,126 bytes in 0.02 seconds (21124.54KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/alexandria/2021-12-09/alexandria-20211209-git.tgz">
+; 54.51KB
+==================================================
+55,819 bytes in 0.00 seconds (13627.69KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/trivia/2021-10-20/trivia-20211020-git.tgz">
+; 60.37KB
+==================================================
+61,817 bytes in 0.00 seconds (15092.04KB/sec)
+; Loading "trivia"
+[package alexandria]..............................
+[package alexandria-2]............................
+[package trivia.level0]...........................
+[package trivia.level1]...........................
+[package trivia.fail].............................
+[package trivia.skip].............................
+[package trivia.next].............................
+[package trivia.level1.impl]......................
+[package lisp-namespace]..........................
+[package closer-mop]..............................
+[package closer-common-lisp]......................
+[package closer-common-lisp-user].................
+[package trivial-cltl2]...........................
+[package trivia.level2]...........................
+[package trivia.level2.impl]......................
+..................................................
+[package introspect-environment]..................
+[package type-i]..................................
+[package iterate].................................
+[package trivia.balland2006]......
+To load "alexandria":
+  Load 1 ASDF system:
+    alexandria
+; Loading "alexandria"
+
+To load "trivial-types":
+  Install 1 Quicklisp release:
+    trivial-types
+; Fetching #<URL "http://beta.quicklisp.org/archive/trivial-types/2012-04-07/trivial-types-20120407-git.tgz">
+; 3.15KB
+==================================================
+3,228 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "trivial-types"
+[package trivial-types].
+To load "defstar":
+  Install 1 Quicklisp release:
+    defstar
+; Fetching #<URL "http://beta.quicklisp.org/archive/defstar/2014-07-13/defstar-20140713-git.tgz">
+; 45.87KB
+==================================================
+46,970 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "defstar"
+[package defstar]........
+To load "str":
+  Load 1 ASDF system:
+    asdf
+  Install 4 Quicklisp releases:
+    cl-change-case cl-ppcre cl-str cl-unicode
+; Fetching #<URL "http://beta.quicklisp.org/archive/cl-unicode/2021-02-28/cl-unicode-20210228-git.tgz">
+; 1260.39KB
+==================================================
+1,290,638 bytes in 0.02 seconds (52514.01KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/cl-ppcre/2019-05-21/cl-ppcre-20190521-git.tgz">
+; 151.38KB
+==================================================
+155,009 bytes in 0.01 seconds (12614.67KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/cl-change-case/2021-04-11/cl-change-case-20210411-git.tgz">
+; 4.68KB
+==================================================
+4,792 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/cl-str/2021-05-31/cl-str-20210531-git.tgz">
+; 18.06KB
+==================================================
+18,498 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "str"
+To load "flexi-streams":
+  Load 1 ASDF system:
+    asdf
+  Install 2 Quicklisp releases:
+    flexi-streams trivial-gray-streams
+; Fetching #<URL "http://beta.quicklisp.org/archive/trivial-gray-streams/2021-01-24/trivial-gray-streams-20210124-git.tgz">
+; 7.86KB
+==================================================
+8,046 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/flexi-streams/2021-08-07/flexi-streams-20210807-git.tgz">
+; 435.38KB
+==================================================
+445,826 bytes in 0.02 seconds (21767.76KB/sec)
+; Loading "flexi-streams"
+[package impl-specific-gray]......................
+[package trivial-gray-streams]....................
+[package flexi-streams]...........................
+..................................................
+..................................................
+...............................
+To load "str":
+  Load 1 ASDF system:
+    str
+; Loading "str"
+[package cl-ppcre]................................
+..................................................
+[package cl-unicode]..............................
+[package cl-unicode-names]........................
+[package cl-ppcre-unicode]........................
+[package cl-change-case]..........................
+[package str].....
+To load "parse-float":
+  Load 2 ASDF systems:
+    alexandria asdf
+  Install 1 Quicklisp release:
+    parse-float
+; Fetching #<URL "http://beta.quicklisp.org/archive/parse-float/2020-02-18/parse-float-20200218-git.tgz">
+; 4.54KB
+==================================================
+4,653 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "parse-float"
+[package parse-float].
+To load "iterate":
+  Load 1 ASDF system:
+    iterate
+; Loading "iterate"
+
+To load "let-plus":
+  Load 2 ASDF systems:
+    alexandria asdf
+  Install 2 Quicklisp releases:
+    anaphora let-plus
+; Fetching #<URL "http://beta.quicklisp.org/archive/anaphora/2021-12-09/anaphora-20211209-git.tgz">
+; 6.16KB
+==================================================
+6,304 bytes in 0.00 seconds (0.00KB/sec)
+; Fetching #<URL "http://beta.quicklisp.org/archive/let-plus/2019-11-30/let-plus-20191130-git.tgz">
+; 10.98KB
+==================================================
+11,247 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "let-plus"
+[package anaphora]................................
+[package anaphora-basic]..........................
+[package anaphora-symbol].........................
+[package let-plus].........
+To load "array-operations":
+  Load 2 ASDF systems:
+    asdf let-plus
+  Install 1 Quicklisp release:
+    array-operations
+; Fetching #<URL "http://beta.quicklisp.org/archive/array-operations/2021-04-11/array-operations-20210411-git.tgz">
+; 25.70KB
+==================================================
+26,315 bytes in 0.00 seconds (0.00KB/sec)
+; Loading "array-operations"
+[package array-operations/generic]................
+[package array-operations/reducing]...............
+[package array-operations/matrices]...............
+[package array-operations/utilities]..............
+[package array-operations/creating]...............
+[package array-operations/indexing]...............
+[package array-operations/displacing].............
+[package array-operations/transforming]...........
+[package array-operations/stacking]..
+
+; file: /benchmarks/bencher/tmp/aoc2021_day4b/tmp/aoc2021_day4b.lisp-1.lisp
+; in: DEFUN* (PARSE-BOARD! -> BOOLEAN)
+;     (LET-PLUS:LET+ (((MAIN::COL-I MAIN::_) (ARRAY-DIMENSIONS MAIN::COLS)))
+;       (ITERATE:ITER
+;         (ITERATE:FOR MAIN::I MAIN::FROM 0 MAIN::BELOW MAIN::COL-I)
+;         (ITERATE:AFTER-EACH
+;          (MAIN::BOARD-ADD-ROW! MAIN::SELF
+;                                (ARRAY-OPERATIONS/DISPLACING:SUB MAIN::COLS
+;                                                                 MAIN::I)
+;                                :ADD-TO-CONTENT? NIL))))
+; --> SB-INT:BINDING* 
+; ==>
+;   (LET* ((#:G12
+;           (SB-C::CHECK-DS-LIST (ARRAY-DIMENSIONS MAIN::COLS) 2 2
+;                                '(MAIN::COL-I MAIN::_)))
+;          (MAIN::COL-I (POP #:G12))
+;          (MAIN::_ (POP #:G12)))
+;     (DECLARE (IGNORE))
+;     (ITERATE:ITER
+;       (ITERATE:FOR MAIN::I MAIN::FROM 0 MAIN::BELOW MAIN::COL-I)
+;       (ITERATE:AFTER-EACH
+;        (MAIN::BOARD-ADD-ROW! MAIN::SELF
+;                              (ARRAY-OPERATIONS/DISPLACING:SUB MAIN::COLS
+;                                                               MAIN::I)
+;                              :ADD-TO-CONTENT? NIL))))
+; 
+; caught STYLE-WARNING:
+;   The variable _ is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
+[undoing binding stack and other enclosing state... done]
+[performing final GC... done]
+[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1276+1080+20564+20704+26392... done]
+[saving current Lisp image into app_lisp:
+writing 0 bytes from the read-only space at 0x50000000
+writing 736 bytes from the static space at 0x50100000
+writing 50462720 bytes from the dynamic space at 0x1000000000
+writing 2138112 bytes from the immobile space at 0x50200000
+writing 13680640 bytes from the immobile space at 0x52a00000
+done]
+
+13.93s to complete and log all make actions
+
+COMMAND LINE:
+./app_lisp 600
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+Unhandled SB-INT:SIMPLE-PARSE-ERROR in thread #<SB-THREAD:THREAD "main thread" RUNNING
+                                                 {1003024103}>:
+  no non-whitespace characters in string "".
+
+Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING {1003024103}>
+0: (SB-DEBUG::DEBUGGER-DISABLED-HOOK #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}> #<unused argument> :QUIT T)
+1: (SB-DEBUG::RUN-HOOK *INVOKE-DEBUGGER-HOOK* #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}>)
+2: (INVOKE-DEBUGGER #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}>)
+3: (ERROR SB-INT:SIMPLE-PARSE-ERROR :FORMAT-CONTROL "no non-whitespace characters in string ~S." :FORMAT-ARGUMENTS (""))
+4: (PARSE-INTEGER "" :START 0 :END NIL :RADIX 10 :JUNK-ALLOWED NIL)
+5: (MAIN::PARSE-BOARD-EXTRACTIONS #<unavailable argument>)
+6: (MAIN::SELECT-BOARD :SELECT-BEST? #<unavailable argument>)
+7: (MAIN:MAIN)
+8: ((FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP))
+9: ((FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP))
+10: (SB-IMPL::START-LISP)
+
+unhandled condition in --disable-debugger mode, quitting

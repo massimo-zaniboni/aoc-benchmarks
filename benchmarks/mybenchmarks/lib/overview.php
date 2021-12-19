@@ -15,6 +15,7 @@ require_once(LIB_PATH.'lib_data.php');
 function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE){
    $measurements = array();
    $bestTimes = array();
+   $isSolvedTest = array();
 
    $lines = file($FileName);
 
@@ -36,11 +37,20 @@ function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE)
       $notFailed = ($time > 0.0) && ($row[DATA_STATUS] == 0);
 
       $key = $test.$row[DATA_LANG].$row[DATA_ID];
-      if ($notFailed &&
-          (!isset($Excl[$key])) &&
-          (isset($Incl[$test])) &&
-          (isset($Incl[$lang]))) {
+      $isKeyToInclude = ((!isset($Excl[$key])) && (isset($Incl[$test])) && (isset($Incl[$lang])));
 
+      if ($isKeyToInclude) {
+        if ($notFailed) {
+          $isSolvedTest[$test] = true;
+        } else {
+          if (!isset($isSolvedTest[$test])) {
+            // this is the first time we encounter the test, but it is unsolved
+            $isSolvedTest[$test] = false;
+          }
+        }
+      }
+
+      if ($isKeyToInclude && $notFailed) {
         if (isset($bestTimes[$test])) {
           $oldTime = $bestTimes[$test];
           $isBestTime = ($time < $oldTime);
@@ -55,7 +65,14 @@ function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE)
      }
    }
 
-   return $measurements;
+   $unsolvedTests = array();
+   foreach($isSolvedTest as $k => $v) {
+      if ($v == false) {
+         $unsolvedTests[] = $k;
+      }
+   }
+
+   return array($measurements, $unsolvedTests);
 }
 
 
@@ -87,7 +104,7 @@ $Title = "Show best program for each problem";
 // People seem more confused than helped by comparisons at different workloads, so
 // just use the comparison at the largest workload.
 
-$Data = HeadToHeadDataAll(DATA_PATH.'filtered_measurements.csv',$Tests,$Langs,$Incl,$Excl);
+list($Data, $UnsolvedTests) = HeadToHeadDataAll(DATA_PATH.'filtered_measurements.csv',$Tests,$Langs,$Incl,$Excl);
 
 // META ////////////////////////////////////////////////
 
@@ -105,6 +122,7 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
 // TEMPLATE VARS ////////////////////////////////////////////////
 
 $Body->set('Data', $Data );
+$Body->set('UnsolvedTests', $UnsolvedTests);
 $Body->set('Langs', $Langs);
 $Body->set('Tests', $Tests);
 $Body->set('Title', $Title.' | My Benchmarks');
