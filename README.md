@@ -4,7 +4,7 @@ I customized https://salsa.debian.org/benchmarksgame-team/benchmarksgame for sup
 
 You can see the results on https://aoc-benchmarks.dokmelody.org
 
-For submitting new code to test, you can add issues on https://github.com/massimo-zaniboni/aoc-benchmarks 
+For submitting new code to test, you can add issues and/or pull-requests on https://github.com/massimo-zaniboni/aoc-benchmarks 
 
 * The submitted program must read from the standard input the input data file, and write the result to stdout, without adding a new-line at the end.
 * Add a license in the header of the code.
