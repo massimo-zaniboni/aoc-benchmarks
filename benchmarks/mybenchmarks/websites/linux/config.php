@@ -18,7 +18,7 @@ define('MISC_PATH', '../../misc/');
 define('DOWNLOAD_PATH', '../download/');
 define('IMAGE_PATH', '../');
 
-define('CORE_SITE', 'http://localhost:8000/');
+define('CORE_SITE', '/index.html');
 
 // CONSTANTS ///////////////////////////////////////////////////
 
