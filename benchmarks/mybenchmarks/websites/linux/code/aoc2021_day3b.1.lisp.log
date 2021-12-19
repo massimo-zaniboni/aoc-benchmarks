@@ -1,5 +1,5 @@
 
-Sun, 19 Dec 2021 02:08:30 GMT
+Sun, 19 Dec 2021 11:14:48 GMT
 
 MAKE:
 sbcl --disable-debugger --load "aoc2021_day3b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
@@ -66,7 +66,7 @@ writing 2080768 bytes from the immobile space at 0x50200000
 writing 13070336 bytes from the immobile space at 0x52a00000
 done]
 
-2.29s to complete and log all make actions
+2.31s to complete and log all make actions
 
 COMMAND LINE:
 ./app_lisp 0 < aoc2021-day3b-input100000.txt
@@ -75,15 +75,15 @@ PROGRAM FAILED
 
 
 PROGRAM OUTPUT:
-   0: fp=0x7efef4b0fcd8 pc=0x53676e0b (LAMBDA (SB-PCL::.P0.))
-   1: fp=0x7efef4b0fd08 pc=0x52b08e39 MAIN::TRIE-ADD-PREFIX!
-   2: fp=0x7efef4b0fd40 pc=0x52b09141 MAIN::TRIE-INSERT-STRING!
-   3: fp=0x7efef4b0fd60 pc=0x52b0927b MAIN::FILE->TRIE
-   4: fp=0x7efef4b0fda8 pc=0x52b0991b MAIN::DAY3B
-   5: fp=0x7efef4b0fdc0 pc=0x531927db MAIN::MAIN
-   6: fp=0x7efef4b0fe60 pc=0x53090689 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
-   7: fp=0x7efef4b0ff28 pc=0x5309048a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
-   8: fp=0x7efef4b0ffc8 pc=0x53090233 SB-IMPL::START-LISP
+   0: fp=0x7efd534ffcd8 pc=0x53676e0b (LAMBDA (SB-PCL::.P0.))
+   1: fp=0x7efd534ffd08 pc=0x52b08e39 MAIN::TRIE-ADD-PREFIX!
+   2: fp=0x7efd534ffd40 pc=0x52b09141 MAIN::TRIE-INSERT-STRING!
+   3: fp=0x7efd534ffd60 pc=0x52b0927b MAIN::FILE->TRIE
+   4: fp=0x7efd534ffda8 pc=0x52b0991b MAIN::DAY3B
+   5: fp=0x7efd534ffdc0 pc=0x531927db MAIN::MAIN
+   6: fp=0x7efd534ffe60 pc=0x53090689 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   7: fp=0x7efd534fff28 pc=0x5309048a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   8: fp=0x7efd534fffc8 pc=0x53090233 SB-IMPL::START-LISP
 
 Heap exhausted during garbage collection: 0 bytes available, 16 requested.
 Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
@@ -100,6 +100,6 @@ GC control variables:
    *GC-INHIBIT* = true
    *GC-PENDING* = true
    *STOP-FOR-GC-PENDING* = false
-fatal error encountered in SBCL pid 31 tid 31:
+fatal error encountered in SBCL pid 74 tid 74:
 Heap exhausted, game over.
 

@@ -14,6 +14,8 @@ For submitting new code to test, you can add issues and/or pull-requests on http
 
 You can clone and customize this tool for benchmarking other type of projects.
 
+Each benchmark (called also "test") has different input-size. Each program is tested starting from smaller input-sizes. It fails if it is not able to process all the input-sizes. The link on "fail" and "secs" shows more details about runs on smaller input-sizes.
+
 # Design
 
 I reused entirely the *bencher* utility of the https://salsa.debian.org/benchmarksgame-team/benchmarksgame project. 

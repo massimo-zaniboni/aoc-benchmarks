@@ -1,8 +1,8 @@
 
-Sun, 19 Dec 2021 11:14:26 GMT
+Sun, 19 Dec 2021 02:29:05 GMT
 
 MAKE:
-sbcl --disable-debugger --load "aoc2021_day3a.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+sbcl --disable-debugger --load "aoc2021_day5b-lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
 This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
 
@@ -19,7 +19,7 @@ To load "trivia":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/introspect-environment/2021-08-07/introspect-environment-20210807-git.tgz">
 ; 9.37KB
 ==================================================
-9,592 bytes in 0.00 seconds (2341.80KB/sec)
+9,592 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/type-i/2019-12-27/type-i-20191227-git.tgz">
 ; 5.79KB
 ==================================================
@@ -89,7 +89,7 @@ To load "defstar":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/defstar/2014-07-13/defstar-20140713-git.tgz">
 ; 45.87KB
 ==================================================
-46,970 bytes in 0.00 seconds (11464.42KB/sec)
+46,970 bytes in 0.00 seconds (11467.29KB/sec)
 ; Loading "defstar"
 [package defstar]........
 To load "str":
@@ -100,15 +100,15 @@ To load "str":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-unicode/2021-02-28/cl-unicode-20210228-git.tgz">
 ; 1260.39KB
 ==================================================
-1,290,638 bytes in 0.03 seconds (45010.67KB/sec)
+1,290,638 bytes in 0.02 seconds (52514.01KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-ppcre/2019-05-21/cl-ppcre-20190521-git.tgz">
 ; 151.38KB
 ==================================================
-155,009 bytes in 0.01 seconds (12614.67KB/sec)
+155,009 bytes in 0.01 seconds (12613.61KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-change-case/2021-04-11/cl-change-case-20210411-git.tgz">
 ; 4.68KB
 ==================================================
-4,792 bytes in 0.00 seconds (1169.92KB/sec)
+4,792 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-str/2021-05-31/cl-str-20210531-git.tgz">
 ; 18.06KB
 ==================================================
@@ -204,15 +204,41 @@ To load "array-operations":
 [saving current Lisp image into app_lisp:
 writing 0 bytes from the read-only space at 0x50000000
 writing 736 bytes from the static space at 0x50100000
-writing 50446336 bytes from the dynamic space at 0x1000000000
+writing 50462720 bytes from the dynamic space at 0x1000000000
 writing 2134016 bytes from the immobile space at 0x50200000
 writing 13672448 bytes from the immobile space at 0x52a00000
 done]
 
-14.21s to complete and log all make actions
+13.97s to complete and log all make actions
 
 COMMAND LINE:
-./app_lisp 0 < aoc2021-day3a-input100000.txt
+./app_lisp 0 < aoc2021-day5b-input20000.txt
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
-386463119445733053722557199393548794069517420395751036911156
+   0: fp=0x7f3aa2c2fda8 pc=0x52b8e48d MAIN::DAY5B
+   1: fp=0x7f3aa2c2fdc0 pc=0x53225a4b MAIN::MAIN
+   2: fp=0x7f3aa2c2fe60 pc=0x531154d9 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   3: fp=0x7f3aa2c2ff28 pc=0x531152da (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   4: fp=0x7f3aa2c2ffc8 pc=0x53115083 SB-IMPL::START-LISP
+
+Heap exhausted during garbage collection: 0 bytes available, 16 requested.
+Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
+ 1    5978      0      0      0      0   3482    3   154917776     74864    10737418       0   0  2.9260
+ 2   10451      0      1  12187      0   6710 15546   480751824    102192     2000000   22637   0  0.0000
+ 3       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 4       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 5       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
+ 6    1637      5   1071    222      0    143    0    49388848   1041104     2000000    3075   0  0.0000
+ 7    3883      0      0  10445      0   9321 2612   387419424     45792     2000000       0   0  0.0000
+           Total bytes allocated    =    1072477872
+           Dynamic-space-size bytes =    1073741824
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = true
+   *STOP-FOR-GC-PENDING* = false
+fatal error encountered in SBCL pid 19 tid 19:
+Heap exhausted, game over.
+

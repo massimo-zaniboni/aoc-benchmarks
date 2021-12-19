@@ -1,8 +1,8 @@
 
-Sun, 19 Dec 2021 11:14:26 GMT
+Sun, 19 Dec 2021 02:14:13 GMT
 
 MAKE:
-sbcl --disable-debugger --load "aoc2021_day3a.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+sbcl --disable-debugger --load "aoc2021_day4b-lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
 This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
 
@@ -19,7 +19,7 @@ To load "trivia":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/introspect-environment/2021-08-07/introspect-environment-20210807-git.tgz">
 ; 9.37KB
 ==================================================
-9,592 bytes in 0.00 seconds (2341.80KB/sec)
+9,592 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/type-i/2019-12-27/type-i-20191227-git.tgz">
 ; 5.79KB
 ==================================================
@@ -89,7 +89,7 @@ To load "defstar":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/defstar/2014-07-13/defstar-20140713-git.tgz">
 ; 45.87KB
 ==================================================
-46,970 bytes in 0.00 seconds (11464.42KB/sec)
+46,970 bytes in 0.00 seconds (11467.29KB/sec)
 ; Loading "defstar"
 [package defstar]........
 To load "str":
@@ -100,7 +100,7 @@ To load "str":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-unicode/2021-02-28/cl-unicode-20210228-git.tgz">
 ; 1260.39KB
 ==================================================
-1,290,638 bytes in 0.03 seconds (45010.67KB/sec)
+1,290,638 bytes in 0.02 seconds (52514.01KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-ppcre/2019-05-21/cl-ppcre-20190521-git.tgz">
 ; 151.38KB
 ==================================================
@@ -108,11 +108,11 @@ To load "str":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-change-case/2021-04-11/cl-change-case-20210411-git.tgz">
 ; 4.68KB
 ==================================================
-4,792 bytes in 0.00 seconds (1169.92KB/sec)
+4,792 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-str/2021-05-31/cl-str-20210531-git.tgz">
 ; 18.06KB
 ==================================================
-18,498 bytes in 0.00 seconds (4516.11KB/sec)
+18,498 bytes in 0.00 seconds (0.00KB/sec)
 ; Loading "str"
 To load "flexi-streams":
   Load 1 ASDF system:
@@ -198,21 +198,74 @@ To load "array-operations":
 [package array-operations/displacing].............
 [package array-operations/transforming]...........
 [package array-operations/stacking]..
+
+; file: /benchmarks/bencher/tmp/aoc2021_day4b/tmp/aoc2021_day4b-lisp-1.lisp
+; in: DEFUN* (PARSE-BOARD! -> BOOLEAN)
+;     (LET-PLUS:LET+ (((MAIN::COL-I MAIN::_) (ARRAY-DIMENSIONS MAIN::COLS)))
+;       (ITERATE:ITER
+;         (ITERATE:FOR MAIN::I MAIN::FROM 0 MAIN::BELOW MAIN::COL-I)
+;         (ITERATE:AFTER-EACH
+;          (MAIN::BOARD-ADD-ROW! MAIN::SELF
+;                                (ARRAY-OPERATIONS/DISPLACING:SUB MAIN::COLS
+;                                                                 MAIN::I)
+;                                :ADD-TO-CONTENT? NIL))))
+; --> SB-INT:BINDING* 
+; ==>
+;   (LET* ((#:G12
+;           (SB-C::CHECK-DS-LIST (ARRAY-DIMENSIONS MAIN::COLS) 2 2
+;                                '(MAIN::COL-I MAIN::_)))
+;          (MAIN::COL-I (POP #:G12))
+;          (MAIN::_ (POP #:G12)))
+;     (DECLARE (IGNORE))
+;     (ITERATE:ITER
+;       (ITERATE:FOR MAIN::I MAIN::FROM 0 MAIN::BELOW MAIN::COL-I)
+;       (ITERATE:AFTER-EACH
+;        (MAIN::BOARD-ADD-ROW! MAIN::SELF
+;                              (ARRAY-OPERATIONS/DISPLACING:SUB MAIN::COLS
+;                                                               MAIN::I)
+;                              :ADD-TO-CONTENT? NIL))))
+; 
+; caught STYLE-WARNING:
+;   The variable _ is defined but never used.
+; 
+; compilation unit finished
+;   caught 1 STYLE-WARNING condition
 [undoing binding stack and other enclosing state... done]
 [performing final GC... done]
-[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1268+1079+20548+20695+26388... done]
+[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1276+1080+20564+20704+26392... done]
 [saving current Lisp image into app_lisp:
 writing 0 bytes from the read-only space at 0x50000000
 writing 736 bytes from the static space at 0x50100000
-writing 50446336 bytes from the dynamic space at 0x1000000000
-writing 2134016 bytes from the immobile space at 0x50200000
-writing 13672448 bytes from the immobile space at 0x52a00000
+writing 50462720 bytes from the dynamic space at 0x1000000000
+writing 2138112 bytes from the immobile space at 0x50200000
+writing 13680640 bytes from the immobile space at 0x52a00000
 done]
 
-14.21s to complete and log all make actions
+13.67s to complete and log all make actions
 
 COMMAND LINE:
-./app_lisp 0 < aoc2021-day3a-input100000.txt
+./app_lisp 600
+
+PROGRAM FAILED 
+
 
 PROGRAM OUTPUT:
-386463119445733053722557199393548794069517420395751036911156
+
+Unhandled SB-INT:SIMPLE-PARSE-ERROR in thread #<SB-THREAD:THREAD "main thread" RUNNING
+                                                 {1003024103}>:
+  no non-whitespace characters in string "".
+
+Backtrace for: #<SB-THREAD:THREAD "main thread" RUNNING {1003024103}>
+0: (SB-DEBUG::DEBUGGER-DISABLED-HOOK #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}> #<unused argument> :QUIT T)
+1: (SB-DEBUG::RUN-HOOK *INVOKE-DEBUGGER-HOOK* #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}>)
+2: (INVOKE-DEBUGGER #<SB-INT:SIMPLE-PARSE-ERROR "no non-whitespace characters in string ~S." {10009C8FB3}>)
+3: (ERROR SB-INT:SIMPLE-PARSE-ERROR :FORMAT-CONTROL "no non-whitespace characters in string ~S." :FORMAT-ARGUMENTS (""))
+4: (PARSE-INTEGER "" :START 0 :END NIL :RADIX 10 :JUNK-ALLOWED NIL)
+5: (MAIN::PARSE-BOARD-EXTRACTIONS #<unavailable argument>)
+6: (MAIN::SELECT-BOARD :SELECT-BEST? #<unavailable argument>)
+7: (MAIN:MAIN)
+8: ((FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP))
+9: ((FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP))
+10: (SB-IMPL::START-LISP)
+
+unhandled condition in --disable-debugger mode, quitting
