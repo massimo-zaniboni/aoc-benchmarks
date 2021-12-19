@@ -1,0 +1,27 @@
+
+-- author: f-a
+
+import Data.List as L
+
+main = main2
+
+main1 = sol1 &lt;$&gt; input &gt;&gt;= print
+main2 = sol2 &lt;$&gt; input &gt;&gt;= print
+
+input :: IO [Int]
+input = read . (&apos;[&apos;:) . (++&quot;]&quot;) &lt;$&gt; getContents
+
+cost :: (Int -&gt; Int) -&gt; [Int] -&gt; Int
+cost d ps = sum $ map d ps
+
+median :: [Int] -&gt; Int
+median ps = last . take (quot (length ps) 2) $ L.sort ps
+
+mean :: [Int] -&gt; Int
+mean ps = quot (sum ps) (length ps)
+
+-- sol1 &lt;$&gt; input    344138
+-- sol2 &lt;$&gt; input    94862124
+sol1, sol2 :: [Int] -&gt; Int
+sol1 ps = cost (abs . subtract (median ps)) ps
+sol2 ps = cost (\p -&gt; sum [1..(abs $ (mean ps - p))]) ps
