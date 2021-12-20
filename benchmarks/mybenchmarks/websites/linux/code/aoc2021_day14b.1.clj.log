@@ -1,8 +1,8 @@
 
-Mon, 20 Dec 2021 02:21:54 GMT
+Mon, 20 Dec 2021 14:26:54 GMT
 
 COMMAND LINE:
-clojure aoc2021_day14b.clj-1.clj 0 < aoc2021-day14b-input2.txt
+clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day14b.clj-1.clj 0 < aoc2021-day14b-input2.txt
 
 PROGRAM OUTPUT:
 2265039461737

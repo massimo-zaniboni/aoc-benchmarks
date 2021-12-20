@@ -1,5 +1,5 @@
 
-Mon, 20 Dec 2021 02:22:49 GMT
+Mon, 20 Dec 2021 14:43:03 GMT
 
 COMMAND LINE:
 bb -f aoc2021_day3b.clj_babashka-1.clj_babashka 0 < aoc2021-day3b-input100000.txt

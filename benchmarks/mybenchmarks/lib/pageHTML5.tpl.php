@@ -16,7 +16,7 @@ if (isset($LinkCanonical)) { echo $LinkCanonical, "\n"; }
 <footer>
   <nav>
     <ul>
-      <li><a href="https://github.com/massimo-zaniboni/aoc-benchmarks"><span>Source Code Repository</span></a>
+      <li><a href="https://github.com/massimo-zaniboni/aoc-benchmarks"><span>Project Repository</span></a>
     </ul>
   </nav>
 </footer>

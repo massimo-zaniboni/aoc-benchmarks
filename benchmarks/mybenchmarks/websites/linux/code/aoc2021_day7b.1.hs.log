@@ -1,5 +1,5 @@
 
-Mon, 20 Dec 2021 03:43:29 GMT
+Mon, 20 Dec 2021 16:04:28 GMT
 
 MAKE:
 ghc -O2 aoc2021_day7b.hs-1.hs -o app_hs

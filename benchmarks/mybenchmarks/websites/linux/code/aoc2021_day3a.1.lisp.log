@@ -1,5 +1,5 @@
 
-Mon, 20 Dec 2021 02:22:20 GMT
+Mon, 20 Dec 2021 14:42:42 GMT
 
 MAKE:
 sbcl --disable-debugger --load "aoc2021_day3a.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
@@ -89,7 +89,7 @@ To load "defstar":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/defstar/2014-07-13/defstar-20140713-git.tgz">
 ; 45.87KB
 ==================================================
-46,970 bytes in 0.00 seconds (11467.29KB/sec)
+46,970 bytes in 0.18 seconds (254.82KB/sec)
 ; Loading "defstar"
 [package defstar]........
 To load "str":
@@ -100,7 +100,7 @@ To load "str":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-unicode/2021-02-28/cl-unicode-20210228-git.tgz">
 ; 1260.39KB
 ==================================================
-1,290,638 bytes in 0.03 seconds (45012.27KB/sec)
+1,290,638 bytes in 0.03 seconds (45010.67KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-ppcre/2019-05-21/cl-ppcre-20190521-git.tgz">
 ; 151.38KB
 ==================================================
@@ -126,7 +126,7 @@ To load "flexi-streams":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/flexi-streams/2021-08-07/flexi-streams-20210807-git.tgz">
 ; 435.38KB
 ==================================================
-445,826 bytes in 0.02 seconds (27209.36KB/sec)
+445,826 bytes in 0.02 seconds (21767.76KB/sec)
 ; Loading "flexi-streams"
 [package impl-specific-gray]......................
 [package trivial-gray-streams]....................
@@ -187,7 +187,7 @@ To load "array-operations":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/array-operations/2021-04-11/array-operations-20210411-git.tgz">
 ; 25.70KB
 ==================================================
-26,315 bytes in 0.09 seconds (292.01KB/sec)
+26,315 bytes in 0.00 seconds (0.00KB/sec)
 ; Loading "array-operations"
 [package array-operations/generic]................
 [package array-operations/reducing]...............
@@ -209,7 +209,7 @@ writing 2134016 bytes from the immobile space at 0x50200000
 writing 13672448 bytes from the immobile space at 0x52a00000
 done]
 
-14.94s to complete and log all make actions
+14.43s to complete and log all make actions
 
 COMMAND LINE:
 ./app_lisp 0 < aoc2021-day3a-input100000.txt

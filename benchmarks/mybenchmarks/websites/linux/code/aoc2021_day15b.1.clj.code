@@ -61,7 +61,7 @@
                            :when                (some? old-neigh-dist) ; If neighbour is still in the priority queue
                            :when                (&lt; new-neigh-dist old-neigh-dist)]
                        [neigh [new-neigh-dist node]]))
-          saved-prev 0)))))
+          saved-prev)))))
 (defn acc-path [dst edges]
   (loop [path [dst]]
     (let [prev (edges (peek path))]

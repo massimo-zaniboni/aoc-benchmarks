@@ -1,8 +1,8 @@
 
-Mon, 20 Dec 2021 03:39:13 GMT
+Mon, 20 Dec 2021 15:47:57 GMT
 
 COMMAND LINE:
-clojure aoc2021_day6.clj-1.clj 0 < aoc2021_day6-input1.txt
+clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day6.clj-1.clj 0 < aoc2021_day6-input1.txt
 
 UNEXPECTED OUTPUT 
 

@@ -1,8 +1,8 @@
 
-Mon, 20 Dec 2021 02:53:08 GMT
+Mon, 20 Dec 2021 15:13:25 GMT
 
 COMMAND LINE:
-clojure aoc2021_day4b.clj-1.clj 600
+clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day4b.clj-1.clj 600
 
 TIMED OUT after 900s
 

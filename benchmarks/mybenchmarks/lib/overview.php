@@ -12,10 +12,29 @@ require_once(LIB_PATH.'lib_data.php');
 
 // FUNCTIONS ///////////////////////////////////////////
 
-function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE){
+function countAttempts($arr, $test) {
+    $r = 0;
+    if (array_key_exists($test, $arr)) {
+        $r = count($arr[$test]) - 1;
+    } else {
+        $r = 0;
+    }
+
+    if ($r < 0) {
+        $r = 0;
+    }
+
+    return $r;
+}
+
+function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE) {
    $measurements = array();
    $bestTimes = array();
    $isSolvedTest = array();
+
+   // for each test, associate the programs and languag trying to solve it.
+   $listPrograms = array();
+   $listLangs = array();
 
    $lines = file($FileName);
 
@@ -36,10 +55,23 @@ function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE)
 
       $notFailed = ($time > 0.0) && ($row[DATA_STATUS] == 0);
 
+      $programName = $row[DATA_LANG] . '-' . $row[DATA_ID];
+
       $key = $test.$row[DATA_LANG].$row[DATA_ID];
       $isKeyToInclude = ((!isset($Excl[$key])) && (isset($Incl[$test])) && (isset($Incl[$lang])));
 
       if ($isKeyToInclude) {
+        if (!isset($listPrograms[$test])) {
+            $listPrograms[$test] = array();
+        }
+
+        if (!isset($listLangs[$test])) {
+            $listLangs[$test] = array();
+        }
+
+        $listPrograms[$test][$programName] = true;
+        $listLangs[$test][$lang] = true;
+
         if ($notFailed) {
           $isSolvedTest[$test] = true;
         } else {
@@ -72,7 +104,7 @@ function HeadToHeadDataAll($FileName,$Tests,$Langs,$Incl,$Excl,$HasHeading=TRUE)
       }
    }
 
-   return array($measurements, $unsolvedTests);
+   return array($measurements, $unsolvedTests, $listPrograms, $listLangs);
 }
 
 
@@ -104,7 +136,7 @@ $Title = "Show best program for each problem";
 // People seem more confused than helped by comparisons at different workloads, so
 // just use the comparison at the largest workload.
 
-list($Data, $UnsolvedTests) = HeadToHeadDataAll(DATA_PATH.'filtered_measurements.csv',$Tests,$Langs,$Incl,$Excl);
+list($Data, $UnsolvedTests, $ListPrograms, $ListLangs) = HeadToHeadDataAll(DATA_PATH.'filtered_measurements.csv',$Tests,$Langs,$Incl,$Excl);
 
 // META ////////////////////////////////////////////////
 
@@ -123,6 +155,8 @@ a{color:black;text-decoration:none}article,footer{padding:0 0 2.9em}article,div,
 
 $Body->set('Data', $Data );
 $Body->set('UnsolvedTests', $UnsolvedTests);
+$Body->set('ListPrograms', $ListPrograms);
+$Body->set('ListLangs', $ListLangs);
 $Body->set('Langs', $Langs);
 $Body->set('Tests', $Tests);
 $Body->set('Title', $Title.' | My Benchmarks');

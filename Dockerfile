@@ -49,6 +49,8 @@ RUN cd /downloads && \
     curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install && \
     chmod u+x install && ./install && rm install
 
+RUN apt-get -y install libdata-priority-map-clojure
+
 # Configure the container
 
 COPY docker-files/init-datasets.sh /init-datasets.sh
