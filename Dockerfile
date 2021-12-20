@@ -33,7 +33,7 @@ RUN apt-get -y update && apt-get -y upgrade && \
 RUN apt-get -y install \
                  llvm llvm-dev \
                  ghc \
-                 openjdk-17-jdk
+                 openjdk-17-jdk clojure
 
 COPY docker-files/install-quicklisp.lisp /downloads/install-quicklisp.lisp
 
@@ -45,7 +45,9 @@ RUN cd /downloads && \
     cd /downloads && \
     rm -r -f sbcl-* && \
     wget https://beta.quicklisp.org/quicklisp.lisp && \
-    yes "" | sbcl --script install-quicklisp.lisp
+    yes "" | sbcl --script install-quicklisp.lisp && \
+    curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install && \
+    chmod u+x install && ./install && rm install
 
 # Configure the container
 

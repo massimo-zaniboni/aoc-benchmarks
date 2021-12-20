@@ -1,12 +1,12 @@
 
-Sun, 19 Dec 2021 17:00:02 GMT
+Mon, 20 Dec 2021 03:43:29 GMT
 
 MAKE:
 ghc -O2 aoc2021_day7b.hs-1.hs -o app_hs
 [1 of 1] Compiling Main             ( aoc2021_day7b.hs-1.hs, aoc2021_day7b.hs-1.o )
 Linking app_hs ...
 
-0.77s to complete and log all make actions
+1.33s to complete and log all make actions
 
 COMMAND LINE:
 ./app_hs 0 < aoc2021-day7b-input1000000.txt

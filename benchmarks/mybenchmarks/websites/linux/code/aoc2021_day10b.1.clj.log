@@ -1,0 +1,16 @@
+
+Mon, 20 Dec 2021 01:21:00 GMT
+
+COMMAND LINE:
+clojure aoc2021_day10b.clj-1.clj 0 < aoc2021-day10b-input1000.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+Syntax error (ArithmeticException) compiling at (aoc2021_day10b.clj-1.clj:56:1).
+integer overflow
+
+Full report at:
+/tmp/clojure-8739565060906607900.edn

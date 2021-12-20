@@ -1,0 +1,62 @@
+; SPDX-License-Identifier: MIT
+; Copyright (C) 2021 Tito Sacchi &lt;tito&#64;tilde.team&gt;
+; WARNING: These solutions were written while I was still learning Clojure and
+; should by no means be taken as examples of good programming practice or fast
+; implementations.
+
+(ns aoc.2021.10a
+  (:require
+    [clojure.string :as str]
+    [clojure.java.io :as io]))
+
+(defn score [x]
+  (case x
+    \) 1
+    \] 2
+    \} 3
+    \&gt; 4
+    nil 0))
+
+(defn matching [x]
+  (case x
+    \( \)
+    \[ \]
+    \{ \}
+    \&lt; \&gt;
+    \) \(
+    \] \[
+    \} \{
+    \&gt; \&lt;))
+
+(defn opening [x]
+  (case x
+    \( true
+    \[ true
+    \{ true
+    \&lt; true
+    \) false
+    \] false
+    \} false
+    \&gt; false))
+
+(defn opened-stack [line]
+  (reduce (fn [acc chr]
+            (if (opening chr)
+              (conj acc chr)
+              (if
+                (= (peek acc) (matching chr)) (pop acc)
+                (reduced nil)))) () line))
+
+(defn score-to-close [pending-opened]
+  (reduce (fn [total-score chr]
+            (+ (* 5 total-score) (score (matching chr)))) 0 pending-opened))
+
+(defn median [xs] (nth (sort xs) (/ (count xs) 2)))
+
+(println (-&gt;&gt; *in*
+              (java.io.BufferedReader.)
+              (line-seq)
+              (map opened-stack)
+              (filter some?)
+              (mapv score-to-close)
+              (median)))

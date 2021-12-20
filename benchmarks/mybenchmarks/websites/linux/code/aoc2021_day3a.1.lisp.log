@@ -1,5 +1,5 @@
 
-Sun, 19 Dec 2021 11:14:26 GMT
+Mon, 20 Dec 2021 02:22:20 GMT
 
 MAKE:
 sbcl --disable-debugger --load "aoc2021_day3a.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
@@ -19,7 +19,7 @@ To load "trivia":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/introspect-environment/2021-08-07/introspect-environment-20210807-git.tgz">
 ; 9.37KB
 ==================================================
-9,592 bytes in 0.00 seconds (2341.80KB/sec)
+9,592 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/type-i/2019-12-27/type-i-20191227-git.tgz">
 ; 5.79KB
 ==================================================
@@ -39,7 +39,7 @@ To load "trivia":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/iterate/2021-05-31/iterate-release-b0f9a9c6-git.tgz">
 ; 338.01KB
 ==================================================
-346,126 bytes in 0.02 seconds (21124.54KB/sec)
+346,126 bytes in 0.01 seconds (28165.46KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/alexandria/2021-12-09/alexandria-20211209-git.tgz">
 ; 54.51KB
 ==================================================
@@ -89,7 +89,7 @@ To load "defstar":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/defstar/2014-07-13/defstar-20140713-git.tgz">
 ; 45.87KB
 ==================================================
-46,970 bytes in 0.00 seconds (11464.42KB/sec)
+46,970 bytes in 0.00 seconds (11467.29KB/sec)
 ; Loading "defstar"
 [package defstar]........
 To load "str":
@@ -100,19 +100,19 @@ To load "str":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-unicode/2021-02-28/cl-unicode-20210228-git.tgz">
 ; 1260.39KB
 ==================================================
-1,290,638 bytes in 0.03 seconds (45010.67KB/sec)
+1,290,638 bytes in 0.03 seconds (45012.27KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-ppcre/2019-05-21/cl-ppcre-20190521-git.tgz">
 ; 151.38KB
 ==================================================
-155,009 bytes in 0.01 seconds (12614.67KB/sec)
+155,009 bytes in 0.01 seconds (12613.61KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-change-case/2021-04-11/cl-change-case-20210411-git.tgz">
 ; 4.68KB
 ==================================================
-4,792 bytes in 0.00 seconds (1169.92KB/sec)
+4,792 bytes in 0.00 seconds (0.00KB/sec)
 ; Fetching #<URL "http://beta.quicklisp.org/archive/cl-str/2021-05-31/cl-str-20210531-git.tgz">
 ; 18.06KB
 ==================================================
-18,498 bytes in 0.00 seconds (4516.11KB/sec)
+18,498 bytes in 0.00 seconds (0.00KB/sec)
 ; Loading "str"
 To load "flexi-streams":
   Load 1 ASDF system:
@@ -187,7 +187,7 @@ To load "array-operations":
 ; Fetching #<URL "http://beta.quicklisp.org/archive/array-operations/2021-04-11/array-operations-20210411-git.tgz">
 ; 25.70KB
 ==================================================
-26,315 bytes in 0.00 seconds (0.00KB/sec)
+26,315 bytes in 0.09 seconds (292.01KB/sec)
 ; Loading "array-operations"
 [package array-operations/generic]................
 [package array-operations/reducing]...............
@@ -209,7 +209,7 @@ writing 2134016 bytes from the immobile space at 0x50200000
 writing 13672448 bytes from the immobile space at 0x52a00000
 done]
 
-14.21s to complete and log all make actions
+14.94s to complete and log all make actions
 
 COMMAND LINE:
 ./app_lisp 0 < aoc2021-day3a-input100000.txt

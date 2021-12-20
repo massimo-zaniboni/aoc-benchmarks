@@ -3,3 +3,5 @@ php,PHP,<strong>PHP</strong>,scripts embedded in html and much more,1,python,php
 python,Python,<strong>Python</strong>,the new Python,1,java,python,
 hs,Haskell,Haskell - GHC,Avoid success at all costs,1,lisp,hs,
 lisp,Common Lisp,Common Lisp - SBCL,Old venerable,1,hs,lisp,
+clj,Clojure,Clojure,,1,hs,lisp,
+clj_babashka,Clojure,Clojure - Babashka,,1,hs,lisp,

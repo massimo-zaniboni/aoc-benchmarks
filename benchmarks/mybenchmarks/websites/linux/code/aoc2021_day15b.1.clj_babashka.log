@@ -1,0 +1,32 @@
+
+Mon, 20 Dec 2021 02:22:05 GMT
+
+COMMAND LINE:
+bb -f aoc2021_day15b.clj_babashka-1.clj_babashka 0 < aoc2021-day15b-input1.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+----- Error --------------------------------------------------------------------
+Type:     java.lang.Exception
+Message:  Could not find namespace: clojure.data.priority-map.
+Location: /benchmarks/bencher/tmp/aoc2021_day15b/tmp/aoc2021_day15b.clj_babashka-1.clj_babashka:8:3
+
+----- Context ------------------------------------------------------------------
+ 4: ; should by no means be taken as examples of good programming practice or fast
+ 5: ; implementations.
+ 6: 
+ 7: (ns aoc.2021.15b
+ 8:   (:require
+      ^--- Could not find namespace: clojure.data.priority-map.
+ 9:     [clojure.string :as str]
+10:     [clojure.java.io :as io]
+11:     [clojure.data.priority-map :refer [priority-map-keyfn]]))
+12: 
+13: (def input *in*)
+
+----- Stack trace --------------------------------------------------------------
+aoc.2021.15b - /benchmarks/bencher/tmp/aoc2021_day15b/tmp/aoc2021_day15b.clj_babashka-1.clj_babashka:8:3
+

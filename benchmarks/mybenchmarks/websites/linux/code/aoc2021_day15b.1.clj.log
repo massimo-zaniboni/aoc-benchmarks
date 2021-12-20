@@ -1,0 +1,16 @@
+
+Mon, 20 Dec 2021 02:22:04 GMT
+
+COMMAND LINE:
+clojure aoc2021_day15b.clj-1.clj 0 < aoc2021-day15b-input1.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+Syntax error (FileNotFoundException) compiling at (aoc2021_day15b.clj-1.clj:1:1).
+Could not locate clojure/data/priority_map__init.class, clojure/data/priority_map.clj or clojure/data/priority_map.cljc on classpath. Please check that namespaces with dashes use underscores in the Clojure file name.
+
+Full report at:
+/tmp/clojure-13541375593822551464.edn

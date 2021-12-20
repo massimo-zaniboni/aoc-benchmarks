@@ -1,0 +1,8 @@
+
+Mon, 20 Dec 2021 04:34:24 GMT
+
+COMMAND LINE:
+clojure aoc2021_day9b.clj-1.clj 0 < aoc2021-day9b-input4.txt
+
+PROGRAM OUTPUT:
+101367520960

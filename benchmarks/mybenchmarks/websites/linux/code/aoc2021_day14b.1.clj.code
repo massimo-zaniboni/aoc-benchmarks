@@ -1,0 +1,64 @@
+; SPDX-License-Identifier: MIT
+; Copyright (C) 2021 Tito Sacchi &lt;tito&#64;tilde.team&gt;
+; WARNING: These solutions were written while I was still learning Clojure and
+; should by no means be taken as examples of good programming practice or fast
+; implementations.
+
+(ns aoc.2021.14b
+  (:require
+    [clojure.string :as str]
+    [clojure.java.io :as io]))
+
+(defn parse-rule [line]
+  (let [[in out] (str/split line #&quot; -&gt; &quot;)]
+    [(vec in) (first out)]))
+(def input *in*)
+(def reader (io/reader input))
+(def polymer-template (first (line-seq reader)))
+(def insertion-rules
+  (persistent!
+    (reduce #(conj! %1 (parse-rule %2))
+            (transient {})
+            (rest (line-seq reader)))))
+
+; Transducer that construct sliding windows of size 2 with step 1
+(defn adjacent-pairs []
+  (fn [xf]
+    (let [l (volatile! nil)]
+      (fn
+        ([]         (xf))
+        ([result]   (xf (xf result [&#64;l])))
+        ([result x] (let [l- &#64;l]
+                      (vreset! l x)
+                      (if l- (xf result [l- x]) result)))))))
+(defn apply-rule [[a b]]
+  (let [c (insertion-rules [a b])]
+    (if c [a c] [a])))
+(def substitute-polymers
+  (comp
+    (adjacent-pairs)
+    (mapcat apply-rule)))
+
+(def evolve-pair
+  (memoize
+    (fn [input n]
+      (let [notlast (drop-last input)
+            freqs   (frequencies notlast)]
+        (if (= n 0)
+          [freqs]
+          (into [freqs]
+                (apply mapv (partial merge-with +)
+                       (for [pair (eduction
+                                    (comp substitute-polymers (adjacent-pairs))
+                                    input)]
+                         (evolve-pair pair (dec n))))))))))
+(defn evolve-string [input n]
+  (apply mapv
+         (partial merge-with +)
+         (map #(evolve-pair % n) (eduction (adjacent-pairs) input))))
+
+(println
+  (let [starting (conj (vec polymer-template) ::none)
+        final    (peek (evolve-string starting 40))
+        freqs    (vals final)]
+    (- (apply max freqs) (apply min freqs))))

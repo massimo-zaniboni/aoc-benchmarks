@@ -1,0 +1,16 @@
+
+Mon, 20 Dec 2021 02:22:40 GMT
+
+COMMAND LINE:
+clojure aoc2021_day3a.clj-1.clj 0 < aoc2021-day3a-input100000.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+Execution error (StackOverflowError) at (REPL:1).
+null
+
+Full report at:
+/tmp/clojure-5528659170770051826.edn
