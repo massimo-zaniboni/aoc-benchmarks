@@ -16,7 +16,6 @@
   echo "        <th>programs\n";
   echo "        <th>languages\n";
   echo "        <th>winner\n";
-  echo "        <th>vs others\n";
   echo "        <th>secs\n";
   echo "        <th>mem\n";
   echo "        <th>gz\n";
