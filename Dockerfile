@@ -51,7 +51,13 @@ RUN cd /downloads && \
 
 RUN apt-get -y install libdata-priority-map-clojure
 
-# Configure the container
+# Download the datasets, but do not install them.
+# NOTE: the datasets will be installed on the volume, from another script,
+# otherwise there will be problems between Docker image and Docker volume on host.
+
+RUN mkdir -p /downloads && \
+    cd /downloads && \
+    wget https://downloads.asterisell.com/aoc/datasets-01.tar.lrz
 
 COPY docker-files/init-datasets.sh /init-datasets.sh
 
