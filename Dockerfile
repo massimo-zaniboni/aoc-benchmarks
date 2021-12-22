@@ -56,6 +56,7 @@ RUN apt-get -y install libdata-priority-map-clojure
 # otherwise there will be problems between Docker image and Docker volume on host.
 
 RUN mkdir -p /downloads && \
+    echo "datasets-01 v1.3" && \
     cd /downloads && \
     wget https://downloads.asterisell.com/aoc/datasets-01.tar.lrz
 
