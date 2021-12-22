@@ -28,10 +28,9 @@
                              (dissoc -1))
                          timers))))))
 
-(def n 256)
-(println (-&gt;&gt; (read-line)
-              (parse)
-              (frequencies)
-              (step n)
-              (vals)
-              (apply +)))
+(let [freqs (-&gt;&gt; (read-line) (parse) (frequencies))
+      n (-&gt;&gt; (read-line) (Integer/parseInt))]
+
+     (println (-&gt; (step n freqs)
+                  (vals)
+                  (apply +))))

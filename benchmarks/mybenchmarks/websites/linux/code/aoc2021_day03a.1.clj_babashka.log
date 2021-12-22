@@ -1,8 +1,8 @@
 
-Wed, 22 Dec 2021 00:05:16 GMT
+Wed, 22 Dec 2021 11:19:56 GMT
 
 COMMAND LINE:
-bb -f aoc2021_day3a.clj_babashka-1.clj_babashka 0 < aoc2021_day3a-input100000.txt
+bb -f aoc2021_day03a.clj_babashka-1.clj_babashka 0 < aoc2021_day03a-input100000.txt
 
 PROGRAM FAILED 
 
@@ -11,7 +11,7 @@ PROGRAM OUTPUT:
 
 ----- Error --------------------------------------------------------------------
 Type:     java.lang.StackOverflowError
-Location: /benchmarks/bencher/tmp/aoc2021_day3a/tmp/aoc2021_day3a.clj_babashka-1.clj_babashka:24:3
+Location: /benchmarks/bencher/tmp/aoc2021_day03a/tmp/aoc2021_day03a.clj_babashka-1.clj_babashka:24:3
 
 ----- Context ------------------------------------------------------------------
 20:        (reduce update-counts (repeat {0 0, 1 0}))
@@ -28,7 +28,7 @@ Location: /benchmarks/bencher/tmp/aoc2021_day3a/tmp/aoc2021_day3a.clj_babashka-1
 
 ----- Stack trace --------------------------------------------------------------
 clojure.core/reduce   - <built-in>
-aoc.2021.03a/from-bin - /benchmarks/bencher/tmp/aoc2021_day3a/tmp/aoc2021_day3a.clj_babashka-1.clj_babashka:24:3
-aoc.2021.03a/from-bin - /benchmarks/bencher/tmp/aoc2021_day3a/tmp/aoc2021_day3a.clj_babashka-1.clj_babashka:23:1
-aoc.2021.03a          - /benchmarks/bencher/tmp/aoc2021_day3a/tmp/aoc2021_day3a.clj_babashka-1.clj_babashka:29:12
+aoc.2021.03a/from-bin - /benchmarks/bencher/tmp/aoc2021_day03a/tmp/aoc2021_day03a.clj_babashka-1.clj_babashka:24:3
+aoc.2021.03a/from-bin - /benchmarks/bencher/tmp/aoc2021_day03a/tmp/aoc2021_day03a.clj_babashka-1.clj_babashka:23:1
+aoc.2021.03a          - /benchmarks/bencher/tmp/aoc2021_day03a/tmp/aoc2021_day03a.clj_babashka-1.clj_babashka:29:12
 

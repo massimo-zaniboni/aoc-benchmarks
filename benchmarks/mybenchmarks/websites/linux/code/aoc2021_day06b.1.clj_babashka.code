@@ -1,5 +1,5 @@
 ; SPDX-License-Identifier: MIT
-; Copyright (C) 2021 Tito Sacchi <tito@tilde.team>
+; Copyright (C) 2021 Tito Sacchi &lt;tito&#64;tilde.team&gt;
 ; WARNING: These solutions were written while I was still learning Clojure and
 ; should by no means be taken as examples of good programming practice or fast
 ; implementations.
@@ -9,7 +9,7 @@
     [clojure.string :as str]))
 
 (defn parse [line]
-  (vec (map #(Integer/parseInt %) (str/split line #","))))
+  (vec (map #(Integer/parseInt %) (str/split line #&quot;,&quot;))))
 
 (defn prdbg [x] (do (println x) x))
 (defn ifnil [x y] (if (nil? x) y x))
@@ -22,16 +22,15 @@
             timers (reduce-kv #(assoc %1 (dec %2) %3) {} freqs)
             new (get timers -1)]
         (recur (inc k) (if (some? new)
-                         (-> timers
+                         (-&gt; timers
                              (update 8 #(+ (ifnil % 0) new))
                              (update 6 #(+ (ifnil % 0) new))
                              (dissoc -1))
                          timers))))))
 
-(def n 256)
-(println (->> (read-line)
-              (parse)
-              (frequencies)
-              (step n)
-              (vals)
-              (apply +)))
+(let [freqs (-&gt;&gt; (read-line) (parse) (frequencies))
+      n (-&gt;&gt; (read-line) (Integer/parseInt))]
+
+     (println (-&gt; (step n freqs)
+                  (vals)
+                  (apply +))))

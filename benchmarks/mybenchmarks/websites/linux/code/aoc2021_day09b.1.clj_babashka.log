@@ -1,0 +1,10 @@
+
+Wed, 22 Dec 2021 13:05:25 GMT
+
+COMMAND LINE:
+bb -f aoc2021_day09b.clj_babashka-1.clj_babashka 0 < aoc2021_day09b-input2.txt
+
+TIMED OUT after 900s
+
+
+PROGRAM OUTPUT:

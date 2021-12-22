@@ -1,0 +1,42 @@
+
+Wed, 22 Dec 2021 17:19:26 GMT
+
+COMMAND LINE:
+bb -f aoc2021_day06b.clj_babashka-1.clj_babashka 0 < aoc2021_day06b-input1.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+----- Error --------------------------------------------------------------------
+Type:     java.lang.ArithmeticException
+Message:  integer overflow
+Location: /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:27:41
+
+----- Context ------------------------------------------------------------------
+23:             new (get timers -1)]
+24:         (recur (inc k) (if (some? new)
+25:                          (-> timers
+26:                              (update 8 #(+ (ifnil % 0) new))
+27:                              (update 6 #(+ (ifnil % 0) new))
+                                            ^--- integer overflow
+28:                              (dissoc -1))
+29:                          timers))))))
+30: 
+31: (let [freqs (->> (read-line) (parse) (frequencies))
+32:       n (->> (read-line) (Integer/parseInt))]
+
+----- Stack trace --------------------------------------------------------------
+clojure.core/+       - <built-in>
+aoc.2021.06b         - /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:27:41
+clojure.core/update  - <built-in>
+aoc.2021.06b         - /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:27:30
+clojure.core/dissoc  - <built-in>
+...
+aoc.2021.06b         - /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:35:19
+clojure.core/apply   - <built-in>
+aoc.2021.06b         - /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:36:19
+clojure.core/println - <built-in>
+aoc.2021.06b         - /benchmarks/bencher/tmp/aoc2021_day06b/tmp/aoc2021_day06b.clj_babashka-1.clj_babashka:34:6
+

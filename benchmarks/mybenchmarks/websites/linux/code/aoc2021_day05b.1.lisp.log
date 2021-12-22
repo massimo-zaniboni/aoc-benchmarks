@@ -1,8 +1,8 @@
 
-Wed, 22 Dec 2021 09:21:47 GMT
+Wed, 22 Dec 2021 12:11:25 GMT
 
 MAKE:
-sbcl --disable-debugger --load "aoc2021_day3b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+sbcl --disable-debugger --load "aoc2021_day05b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
 This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
 
@@ -57,49 +57,45 @@ To load "array-operations":
 
 [undoing binding stack and other enclosing state... done]
 [performing final GC... done]
-[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1180+997+19877+20300+25972... done]
+[defragmenting immobile space... (fin,inst,fdefn,code,sym)=1172+996+19861+20294+25972... done]
 [saving current Lisp image into app_lisp:
 writing 0 bytes from the read-only space at 0x50000000
 writing 736 bytes from the static space at 0x50100000
-writing 48218112 bytes from the dynamic space at 0x1000000000
+writing 48185344 bytes from the dynamic space at 0x1000000000
 writing 2080768 bytes from the immobile space at 0x50200000
-writing 13070336 bytes from the immobile space at 0x52a00000
+writing 13066240 bytes from the immobile space at 0x52a00000
 done]
 
-2.45s to complete and log all make actions
+2.44s to complete and log all make actions
 
 COMMAND LINE:
-./app_lisp 0 < aoc2021_day3b-input100000.txt
+./app_lisp 0 < aoc2021_day05b-input20000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
-   0: fp=0x7f545a647cd8 pc=0x53676e0b (LAMBDA (SB-PCL::.P0.))
-   1: fp=0x7f545a647d08 pc=0x52b08e39 MAIN::TRIE-ADD-PREFIX!
-   2: fp=0x7f545a647d40 pc=0x52b09141 MAIN::TRIE-INSERT-STRING!
-   3: fp=0x7f545a647d60 pc=0x52b0927b MAIN::FILE->TRIE
-   4: fp=0x7f545a647da8 pc=0x52b0991b MAIN::DAY3B
-   5: fp=0x7f545a647dc0 pc=0x531927db MAIN::MAIN
-   6: fp=0x7f545a647e60 pc=0x53090689 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
-   7: fp=0x7f545a647f28 pc=0x5309048a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
-   8: fp=0x7f545a647fc8 pc=0x53090233 SB-IMPL::START-LISP
+   0: fp=0x7f2f86847da8 pc=0x52b08afd MAIN::DAY5B
+   1: fp=0x7f2f86847dc0 pc=0x531913fb MAIN::MAIN
+   2: fp=0x7f2f86847e60 pc=0x5308f309 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   3: fp=0x7f2f86847f28 pc=0x5308f10a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   4: fp=0x7f2f86847fc8 pc=0x5308eeb3 SB-IMPL::START-LISP
 
 Heap exhausted during garbage collection: 0 bytes available, 16 requested.
 Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
- 1   18212      0      0      0      0      0    3   298106304    279104    10737418       0   0  1.0002
- 2   27304      0      1      0      0      0   10   446960080    405040     2000000   25292   0  0.0000
+ 1    5978      0      0      0      0   3482    3   154917776     74864    10737418       0   0  2.9260
+ 2   10451      0      1  12187      0   6710 15546   480751296    102720     2000000   22637   0  0.0000
  3       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
  4       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
  5       0      0      0      0      0      0    0           0         0     2000000       0   0  0.0000
- 6    1555      5   1029    222      0    131    0    47210592    991136     2000000    2927   0  0.0000
- 7   17077      0      0      0      0      0    0   279584848    204720     2000000       0   0  0.0000
-           Total bytes allocated    =    1071861824
+ 6    1554      5   1028    222      0    131    0    47215488    953472     2000000    2937   0  0.0000
+ 7    4021      0      0  10445      0   9321 2612   389680416     45792     2000000       0   0  0.0000
+           Total bytes allocated    =    1072564976
            Dynamic-space-size bytes =    1073741824
 GC control variables:
    *GC-INHIBIT* = true
    *GC-PENDING* = true
    *STOP-FOR-GC-PENDING* = false
-fatal error encountered in SBCL pid 19 tid 19:
+fatal error encountered in SBCL pid 559 tid 559:
 Heap exhausted, game over.
 

@@ -1,0 +1,16 @@
+
+Wed, 22 Dec 2021 16:59:56 GMT
+
+COMMAND LINE:
+clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day06b.clj-1.clj 0 < aoc2021_day06b-input1.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+Syntax error (ArithmeticException) compiling at (aoc2021_day06b.clj-1.clj:31:1).
+integer overflow
+
+Full report at:
+/tmp/clojure-15873573790282252177.edn

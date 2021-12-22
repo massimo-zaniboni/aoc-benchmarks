@@ -1,8 +1,8 @@
 
-Wed, 22 Dec 2021 00:04:49 GMT
+Wed, 22 Dec 2021 17:04:05 GMT
 
 MAKE:
-sbcl --disable-debugger --load "aoc2021_day3a.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
+sbcl --disable-debugger --load "aoc2021_day06b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
 This is SBCL 2.1.11, an implementation of ANSI Common Lisp.
 More information about SBCL is available at <http://www.sbcl.org/>.
 
@@ -66,10 +66,12 @@ writing 2080768 bytes from the immobile space at 0x50200000
 writing 13066240 bytes from the immobile space at 0x52a00000
 done]
 
-2.44s to complete and log all make actions
+2.46s to complete and log all make actions
 
 COMMAND LINE:
-./app_lisp 0 < aoc2021_day3a-input100000.txt
+./app_lisp 0 < aoc2021_day06b-input3.txt
+
+TIMED OUT after 900s
+
 
 PROGRAM OUTPUT:
-386463119445733053722557199393548794069517420395751036911156
