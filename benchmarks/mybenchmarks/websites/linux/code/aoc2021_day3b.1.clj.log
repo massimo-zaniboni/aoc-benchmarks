@@ -1,10 +1,5 @@
 
-Mon, 20 Dec 2021 14:58:11 GMT
+Wed, 22 Dec 2021 00:05:27 GMT
 
 COMMAND LINE:
-clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day3b.clj-1.clj 0 < aoc2021-day3b-input100000.txt
-
-TIMED OUT after 900s
-
-
-PROGRAM OUTPUT:
+clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day3b.clj-1.clj 0 < aoc2021_day3b-input100000.txt

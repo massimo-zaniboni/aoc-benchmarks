@@ -1,8 +1,8 @@
 
-Mon, 20 Dec 2021 13:26:05 GMT
+Tue, 21 Dec 2021 22:48:31 GMT
 
 COMMAND LINE:
-bb -f aoc2021_day11b.clj_babashka-1.clj_babashka 0 < aoc2021-day11b-input100.txt
+bb -f aoc2021_day11b.clj_babashka-1.clj_babashka 0 < aoc2021_day11b-input100.txt
 
 TIMED OUT after 900s
 

@@ -1,5 +1,5 @@
 
-Mon, 20 Dec 2021 15:43:31 GMT
+Wed, 22 Dec 2021 00:25:59 GMT
 
 MAKE:
 sbcl --disable-debugger --load "aoc2021_day5b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
@@ -66,20 +66,20 @@ writing 2080768 bytes from the immobile space at 0x50200000
 writing 13066240 bytes from the immobile space at 0x52a00000
 done]
 
-2.36s to complete and log all make actions
+2.45s to complete and log all make actions
 
 COMMAND LINE:
-./app_lisp 0 < aoc2021-day5b-input20000.txt
+./app_lisp 0 < aoc2021_day5b-input20000.txt
 
 PROGRAM FAILED 
 
 
 PROGRAM OUTPUT:
-   0: fp=0x7f84f43efda8 pc=0x52b08afd MAIN::DAY5B
-   1: fp=0x7f84f43efdc0 pc=0x531913fb MAIN::MAIN
-   2: fp=0x7f84f43efe60 pc=0x5308f309 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
-   3: fp=0x7f84f43eff28 pc=0x5308f10a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
-   4: fp=0x7f84f43effc8 pc=0x5308eeb3 SB-IMPL::START-LISP
+   0: fp=0x7f26aa87fda8 pc=0x52b08afd MAIN::DAY5B
+   1: fp=0x7f26aa87fdc0 pc=0x531913fb MAIN::MAIN
+   2: fp=0x7f26aa87fe60 pc=0x5308f309 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   3: fp=0x7f26aa87ff28 pc=0x5308f10a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   4: fp=0x7f26aa87ffc8 pc=0x5308eeb3 SB-IMPL::START-LISP
 
 Heap exhausted during garbage collection: 0 bytes available, 16 requested.
 Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
@@ -96,6 +96,6 @@ GC control variables:
    *GC-INHIBIT* = true
    *GC-PENDING* = true
    *STOP-FOR-GC-PENDING* = false
-fatal error encountered in SBCL pid 937 tid 937:
+fatal error encountered in SBCL pid 1152 tid 1152:
 Heap exhausted, game over.
 

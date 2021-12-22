@@ -1,8 +1,8 @@
 
-Mon, 20 Dec 2021 13:26:04 GMT
+Tue, 21 Dec 2021 22:48:30 GMT
 
 COMMAND LINE:
-bb -f aoc2021_day10b.clj_babashka-1.clj_babashka 0 < aoc2021-day10b-input1000.txt
+bb -f aoc2021_day10b.clj_babashka-1.clj_babashka 0 < aoc2021_day10b-input1000.txt
 
 PROGRAM FAILED 
 
