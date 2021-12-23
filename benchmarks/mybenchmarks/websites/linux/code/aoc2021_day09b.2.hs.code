@@ -1,0 +1,253 @@
+
+{-# LANGUAGE ImportQualifiedPost, TypeApplications #-}
+
+-- SPDX-License-Identifier: ISC
+-- Copyright (c) 2021 Paolo Martini &lt;mrtnpaolo&#64;protonmail.com&gt;
+
+module Main (main) where
+
+import Data.Ix            (inRange)
+import Data.Ord           (comparing)
+import Data.List          qualified as L
+import Data.Array.Unboxed qualified as A
+
+import Data.List (foldl&apos;)
+import Data.Map.Strict qualified as M&apos; (toAscList,fromListWith)
+
+import Data.Ix
+import GHC.Arr
+import Data.Map (Map)
+import Data.Map qualified as M
+import Data.Foldable (toList)
+
+main =
+  do inp &lt;- getInput parse 9
+     print (part2 inp)
+  where
+    parse = toArray . withCoords (read &#64;Int . pure) . lines
+    toArray ps = A.array bounds ps :: A.UArray Coord Int
+      where
+        Just bounds = boundingBox (map fst ps)
+
+cave `at` c
+  | c `inside` cave = pure (cave A.! c)
+  | otherwise       = mempty
+  where
+    c `inside` cave = inRange (A.bounds cave) c
+
+cave `around` c =
+  [ (c&apos;,y) | c&apos; &lt;- cardinal c,  y &lt;- cave `at` c&apos; ]
+
+lows cave = filter low (A.assocs cave)
+  where
+    low (c,x) = and [ y &gt; x | (_,y) &lt;- cave `around` c ]
+
+part2 cave = product (take 3 (L.sortOn negate basins))
+  where
+    basins = map (length . basin) (lows cave)
+
+    basin (c,x) = bfs next (c,x)
+      where
+        next (c,x) = [ (c&apos;,y) | (c&apos;,y) &lt;- cave `around` c, y &gt; x, y &lt; 9 ]
+
+
+-- ------------------
+-- Utilities
+
+getInput :: (String -&gt; a) -&gt; Int -&gt; IO a
+getInput parse day = parse &lt;$&gt;  getContents
+
+getInputLines :: (String -&gt; a) -&gt; Int -&gt; IO [a]
+getInputLines parse day = getInput (map parse . lines) day
+
+getInputArray :: Int -&gt; IO (A.UArray Coord Char)
+getInputArray day = makeArray &lt;$&gt; getInputLines id day
+  where
+    makeArray rows =
+      A.listArray bounds (concat rows)
+        where
+          height = length rows
+          width  = length (head rows)
+          bounds = ( origin, C (height-1) (width-1) )
+
+count :: (a -&gt; Bool) -&gt; [a] -&gt; Int
+count p xs = foldl&apos; f 0 xs
+  where
+    f n x | p x = n+1 | otherwise = n
+
+freqs :: (Ord a) =&gt; [a] -&gt; [(a,Int)]
+freqs xs = combine [ (x,1) | x &lt;- xs ]
+  where
+    combine = M&apos;.toAscList . M&apos;.fromListWith (+)
+
+-- -----------------
+-- Coord
+
+-- | Row-major coordinates
+data Coord = C !Int !Int
+  deriving (Read, Show, Eq, Ord)
+
+origin, north, east, south, west :: Coord
+origin = C 0 0
+north  = C (-1) 0
+east   = C 0 1
+south  = C 1 0
+west   = C 0 (-1)
+
+coordRow, coordCol :: Coord -&gt; Int
+coordRow (C row _) = row
+coordCol (C _ col) = col
+
+invert :: Coord -&gt; Coord
+invert (C y x) = C x y
+
+above, right, below, left :: Coord -&gt; Coord
+above (C y x) = C (y-1) x
+right (C y x) = C y (x+1)
+below (C y x) = C (y+1) x
+left  (C y x) = C y (x-1)
+
+turnLeft, turnRight, turnAround :: Coord -&gt; Coord
+turnLeft   (C y x) = C (-x) y
+turnRight  (C y x) = C x (-y)
+turnAround (C y x) = C (-y) (-x)
+
+cardinal :: Coord -&gt; [Coord]
+cardinal c = c `seq`
+  [above c, right c, below c, left c]
+
+neighbors :: Coord -&gt; [Coord]
+neighbors c = c `seq`
+  [ above c, left c, right c, below c
+  , above (left c), above (right c)
+  , below (left c), below (right c) ]
+
+bookreading :: Coord -&gt; [Coord]
+bookreading c = c `seq`
+  [ above (left c), above c, above (right c)
+  , left c        , c      , right c
+  , below (left c), below c, below (right c) ]
+
+manhattan :: Coord -&gt; Coord -&gt; Int
+manhattan (C y x) (C v u) = abs (y-v) + abs (x-u)
+
+addCoord :: Coord -&gt; Coord -&gt; Coord
+addCoord (C y x) (C v u) = C (y+v) (x+u)
+
+scaleCoord :: Int -&gt; Coord -&gt; Coord
+scaleCoord n (C y x) = C (n*y) (n*x)
+
+instance Ix Coord where
+  unsafeIndex (C ym xm,C _yM xM) (C y x) =
+    (y - ym) * (xM - xm + 1) + (x - xm)
+
+  inRange (C ym xm,C yM xM) (C y x) =
+    ym &lt;= y &amp;&amp; y &lt;= yM &amp;&amp; xm &lt;= x &amp;&amp; x &lt;= xM
+
+  range (C ym xm,C yM xM) =
+    [ C y x | y &lt;- [ym,ym+1..yM], x &lt;- [xm,xm+1..xM] ]
+
+boundingBox :: Foldable t =&gt; t Coord -&gt; Maybe (Coord,Coord)
+boundingBox t =
+  case toList t of
+    []         -&gt; Nothing
+    C y x : cs -&gt; Just $ go x y x y cs
+    where
+      go xm ym xM yM [] = (C ym xm,C yM xM)
+      go xm ym xM yM (C y x : cs) =
+        go (min xm x) (min ym y) (max xM x) (max yM y) cs
+
+drawCoords :: Map Coord Char -&gt; String
+drawCoords pixels =
+  unlines [ [ pixel (C y x) | x &lt;- [xm..xM]] | y &lt;- [ym..yM] ]
+  where
+    pixel c = M.findWithDefault &apos; &apos; c pixels
+    Just (C ym xm,C yM xM) = boundingBox (M.keys pixels)
+
+showCoords :: Foldable t =&gt; t Coord -&gt; String
+showCoords t = drawCoords $ M.fromList [ (c,&apos;#&apos;) | c &lt;- toList t ]
+
+withCoords :: (Char -&gt; a) -&gt; [String] -&gt; [(Coord,a)]
+withCoords f rows = concat $
+  [ [ (C y x, f c) | (x,c) &lt;- zip [0..] xs ] | (y,xs) &lt;- zip [0..] rows ]
+
+-- --------------------
+-- Search
+
+{-# INLINE dfs #-}
+dfs :: Ord a =&gt; (a -&gt; [a]) -&gt; a -&gt; [a]
+dfs next start = dfsOn id next start
+
+{-# INLINE[0] dfsOn #-}
+dfsOn :: Ord r =&gt; (a -&gt; r) -&gt; (a -&gt; [a]) -&gt; a -&gt; [a]
+dfsOn repr next start = loop S.empty [start]
+  where
+    loop _ [] = []
+    loop seen (x:xs)
+      | r `S.member` seen = loop seen xs
+      | otherwise         = x : loop seen&apos; (next x ++ xs)
+      where
+        r = repr x
+        seen&apos; = S.insert r seen
+
+{-# RULES &quot;dfsOn/Int&quot; dfsOn = dfsOnInt #-}
+{-# INLINE dfsOnInt #-}
+dfsOnInt :: (a -&gt; Int) -&gt; (a -&gt; [a]) -&gt; a -&gt; [a]
+dfsOnInt repr next start = loop IS.empty [start]
+  where
+    loop _ [] = []
+    loop seen (x:xs)
+      | r `IS.member` seen = loop seen xs
+      | otherwise          = x : loop seen&apos; (next x ++ xs)
+      where
+        r = repr x
+        seen&apos; = IS.insert r seen
+
+{-# INLINE bfs #-}
+bfs :: Ord a =&gt; (a -&gt; [a]) -&gt; a -&gt; [a]
+bfs next start = bfsOn id next [start]
+
+{-# INLINE[0] bfsOn #-}
+bfsOn :: Ord r =&gt; (a -&gt; r) -&gt; (a -&gt; [a]) -&gt; [a] -&gt; [a]
+bfsOn repr next starts = loop S.empty (D.fromList starts)
+  where
+    loop _ D.Empty = []
+    loop seen (x D.:&lt;| xs)
+      | r `S.member` seen = loop seen xs
+      | otherwise         = x : loop seen&apos; (D.appendList nexts xs)
+      where
+        r = repr x
+        seen&apos; = S.insert r seen
+        nexts = next x
+
+{-# RULES &quot;bfsOn/Int&quot; bfsOn = bfsOnInt #-}
+{-# INLINE bfsOnInt #-}
+bfsOnInt :: (a -&gt; Int) -&gt; (a -&gt; [a]) -&gt; [a] -&gt; [a]
+bfsOnInt repr next starts = loop IS.empty (D.fromList starts)
+  where
+    loop _ D.Empty = []
+    loop seen (x D.:&lt;| xs)
+      | r `IS.member` seen = loop seen xs
+      | otherwise          = x : loop seen&apos; (D.appendList nexts xs)
+      where
+        r = repr x
+        seen&apos; = IS.insert r seen
+        nexts = next x
+
+{-# INLINE astar #-}
+astar :: Ord a =&gt; (a -&gt; [(a,Int,Int)]) -&gt; a -&gt; [(a,Int)]
+astar next start = astarOn id next start
+
+{-# INLINE astarOn #-}
+astarOn :: Ord r =&gt; (a -&gt; r) -&gt; (a -&gt; [(a,Int,Int)]) -&gt; a -&gt; [(a,Int)]
+astarOn repr next start = loop S.empty (PQ.singleton 0 (0,start))
+  where
+    loop _    PQ.Empty               = []
+    loop seen ((cost,x) PQ.:&lt;| rest)
+      | r `S.member` seen = loop seen rest
+      | otherwise         = (x,cost) : loop seen&apos; rest&apos;
+      where
+        r = repr x
+        seen&apos; = S.insert r seen
+        rest&apos; = DF.foldl&apos; (\q (p,v) -&gt; PQ.insert p v q) rest nexts
+        nexts = [ (cost + y_cost + y_dist,(cost + y_cost,y)) | (y,y_cost,y_dist) &lt;- next x ]

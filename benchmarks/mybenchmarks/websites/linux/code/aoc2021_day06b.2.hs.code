@@ -1,0 +1,37 @@
+
+{-# LANGUAGE ImportQualifiedPost, TypeApplications, ViewPatterns #-}
+
+-- SPDX-License-Identifier: ISC
+-- Copyright (c) 2021 Paolo Martini &lt;mrtnpaolo&#64;protonmail.com&gt;
+
+module Main (main) where
+
+import Data.List (foldl&apos;)
+import Data.Map.Strict qualified as M&apos; (toAscList,fromListWith)
+
+main =
+  do inp &lt;- getInput parse 6
+     print (part2 inp)
+  where
+    parse xs = read &#64;[Int] $ &apos;[&apos;:xs++&quot;]&quot;
+
+timers xs = [ fromIntegral (count (i==) xs) | i &lt;- [0..8] ] :: [Integer]
+
+-- TODO read from standard input the data
+part2 fish = sum $ zipWith (*) (timers fish) [6703087164,6206821033,5617089148
+                                             ,5217223242,4726100874,4368232009
+                                             ,3989468462,3649885552,3369186778]
+
+-- Utilities
+
+getInput :: (String -&gt; a) -&gt; Int -&gt; IO a
+getInput parse day = parse &lt;$&gt;  getContents
+
+getInputLines :: (String -&gt; a) -&gt; Int -&gt; IO [a]
+getInputLines parse day = getInput (map parse . lines) day
+
+count :: (a -&gt; Bool) -&gt; [a] -&gt; Int
+count p xs = foldl&apos; f 0 xs
+  where
+    f n x | p x = n+1 | otherwise = n
+

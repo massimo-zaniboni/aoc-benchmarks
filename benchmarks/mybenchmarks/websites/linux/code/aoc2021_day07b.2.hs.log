@@ -1,0 +1,17 @@
+
+Thu, 23 Dec 2021 04:04:22 GMT
+
+MAKE:
+ghc -O2 aoc2021_day07b.hs-2.hs -o app_hs
+[1 of 1] Compiling Main             ( aoc2021_day07b.hs-2.hs, aoc2021_day07b.hs-2.o )
+Linking app_hs ...
+
+0.60s to complete and log all make actions
+
+COMMAND LINE:
+./app_hs 0 < aoc2021_day07b-input1000000.txt
+
+TIMED OUT after 900s
+
+
+PROGRAM OUTPUT:

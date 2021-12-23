@@ -1,5 +1,5 @@
 
-Wed, 22 Dec 2021 11:35:33 GMT
+Thu, 23 Dec 2021 02:09:26 GMT
 
 MAKE:
 sbcl --disable-debugger --load "aoc2021_day03b.lisp-1.lisp" --eval "(sb-ext:save-lisp-and-die \"app_lisp\" :executable t  :toplevel #'main:main)"
@@ -75,15 +75,15 @@ PROGRAM FAILED
 
 
 PROGRAM OUTPUT:
-   0: fp=0x7f8f047ffcd8 pc=0x53676e39 (LAMBDA (SB-PCL::.P0.))
-   1: fp=0x7f8f047ffd08 pc=0x52b08e39 MAIN::TRIE-ADD-PREFIX!
-   2: fp=0x7f8f047ffd40 pc=0x52b09141 MAIN::TRIE-INSERT-STRING!
-   3: fp=0x7f8f047ffd60 pc=0x52b0927b MAIN::FILE->TRIE
-   4: fp=0x7f8f047ffda8 pc=0x52b0991b MAIN::DAY3B
-   5: fp=0x7f8f047ffdc0 pc=0x531927db MAIN::MAIN
-   6: fp=0x7f8f047ffe60 pc=0x53090689 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
-   7: fp=0x7f8f047fff28 pc=0x5309048a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
-   8: fp=0x7f8f047fffc8 pc=0x53090233 SB-IMPL::START-LISP
+   0: fp=0x7f6af15a7cd8 pc=0x53676e39 (LAMBDA (SB-PCL::.P0.))
+   1: fp=0x7f6af15a7d08 pc=0x52b08e39 MAIN::TRIE-ADD-PREFIX!
+   2: fp=0x7f6af15a7d40 pc=0x52b09141 MAIN::TRIE-INSERT-STRING!
+   3: fp=0x7f6af15a7d60 pc=0x52b0927b MAIN::FILE->TRIE
+   4: fp=0x7f6af15a7da8 pc=0x52b0991b MAIN::DAY3B
+   5: fp=0x7f6af15a7dc0 pc=0x531927db MAIN::MAIN
+   6: fp=0x7f6af15a7e60 pc=0x53090689 (FLET SB-UNIX::BODY :IN SB-IMPL::START-LISP)
+   7: fp=0x7f6af15a7f28 pc=0x5309048a (FLET "WITHOUT-INTERRUPTS-BODY-3" :IN SB-IMPL::START-LISP)
+   8: fp=0x7f6af15a7fc8 pc=0x53090233 SB-IMPL::START-LISP
 
 Heap exhausted during garbage collection: 0 bytes available, 16 requested.
 Gen  Boxed   Code    Raw  LgBox LgCode  LgRaw  Pin       Alloc     Waste        Trig      WP GCs Mem-age
@@ -100,6 +100,6 @@ GC control variables:
    *GC-INHIBIT* = true
    *GC-PENDING* = true
    *STOP-FOR-GC-PENDING* = false
-fatal error encountered in SBCL pid 214 tid 214:
+fatal error encountered in SBCL pid 281 tid 281:
 Heap exhausted, game over.
 

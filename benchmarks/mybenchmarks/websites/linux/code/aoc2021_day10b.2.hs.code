@@ -1,0 +1,51 @@
+
+-- SPDX-License-Identifier: ISC
+-- Copyright (c) 2021 Paolo Martini &lt;mrtnpaolo&#64;protonmail.com&gt;
+
+module Main (main) where
+
+import Data.List   (foldl&apos;,sort)
+import Data.Either (partitionEithers)
+
+import Data.List (foldl&apos;)
+import Data.Map.Strict qualified as M&apos; (toAscList,fromListWith)
+
+main =
+  do (corrupted,incomplete) &lt;- partitionEithers &lt;$&gt; getInputLines parse 10
+     print (part2 incomplete)
+
+parse = go []
+  where
+    go seen [] = Right seen           -- string is incomplete
+
+    go seen&#64;(~(s:rest)) (x:xs)
+      | open x       = go (x:seen) xs
+      | s == match x = go    rest  xs
+      | otherwise    = Left x         -- string is corrupted
+
+open x = x `elem` &quot;([{&lt;&quot;
+
+match &apos;)&apos; = &apos;(&apos;
+match &apos;]&apos; = &apos;[&apos;
+match &apos;}&apos; = &apos;{&apos;
+match &apos;&gt;&apos; = &apos;&lt;&apos;
+
+part2 = middle . map (base5 . map score)
+ where
+    base5 = foldl&apos; (\a i -&gt; a*5 + i) 0
+    middle xs = sort xs !! (length xs `div` 2)
+
+score &apos;(&apos; = 1; score &apos;)&apos; = 3
+score &apos;[&apos; = 2; score &apos;]&apos; = 57
+score &apos;{&apos; = 3; score &apos;}&apos; = 1197
+score &apos;&lt;&apos; = 4; score &apos;&gt;&apos; = 25137
+
+
+-- Utilities
+
+getInput :: (String -&gt; a) -&gt; Int -&gt; IO a
+getInput parse day = parse &lt;$&gt;  getContents
+
+getInputLines :: (String -&gt; a) -&gt; Int -&gt; IO [a]
+getInputLines parse day = getInput (map parse . lines) day
+

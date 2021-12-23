@@ -1,5 +1,5 @@
 
-Wed, 22 Dec 2021 13:35:40 GMT
+Thu, 23 Dec 2021 04:48:46 GMT
 
 COMMAND LINE:
 clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day11b.clj-1.clj 0 < aoc2021_day11b-input100.txt

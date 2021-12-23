@@ -1,5 +1,5 @@
 
-Wed, 22 Dec 2021 11:19:51 GMT
+Thu, 23 Dec 2021 02:08:55 GMT
 
 COMMAND LINE:
 clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day03a.clj-1.clj 0 < aoc2021_day03a-input100000.txt
@@ -13,4 +13,4 @@ Execution error (StackOverflowError) at (REPL:1).
 null
 
 Full report at:
-/tmp/clojure-8977425721698348306.edn
+/tmp/clojure-1703671947065693958.edn

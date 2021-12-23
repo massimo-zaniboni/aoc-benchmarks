@@ -1,0 +1,15 @@
+
+Wed, 22 Dec 2021 22:54:08 GMT
+
+MAKE:
+ghc -O2 aoc2021_day03a.hs-1.hs -o app_hs
+[1 of 1] Compiling Main             ( aoc2021_day03a.hs-1.hs, aoc2021_day03a.hs-1.o )
+Linking app_hs ...
+
+0.89s to complete and log all make actions
+
+COMMAND LINE:
+./app_hs 0 < aoc2021_day03a-input100000.txt
+
+PROGRAM OUTPUT:
+386463119445733053722557199393548794069517420395751036911156

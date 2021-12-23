@@ -1,0 +1,19 @@
+
+Thu, 23 Dec 2021 01:10:44 GMT
+
+MAKE:
+ghc -O2 aoc2021_day06b.hs-2.hs -o app_hs
+[1 of 1] Compiling Main             ( aoc2021_day06b.hs-2.hs, aoc2021_day06b.hs-2.o )
+Linking app_hs ...
+
+0.55s to complete and log all make actions
+
+COMMAND LINE:
+./app_hs 0 < aoc2021_day06b-input1.txt
+
+PROGRAM FAILED 
+
+
+PROGRAM OUTPUT:
+
+app_hs: Prelude.read: no parse

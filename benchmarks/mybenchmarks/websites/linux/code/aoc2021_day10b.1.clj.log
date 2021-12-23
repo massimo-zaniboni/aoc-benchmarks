@@ -1,5 +1,5 @@
 
-Wed, 22 Dec 2021 13:20:32 GMT
+Thu, 23 Dec 2021 04:48:26 GMT
 
 COMMAND LINE:
 clojure -cp /usr/share/java/data.priority-map.jar aoc2021_day10b.clj-1.clj 0 < aoc2021_day10b-input1000.txt
@@ -13,4 +13,4 @@ Syntax error (ArithmeticException) compiling at (aoc2021_day10b.clj-1.clj:56:1).
 integer overflow
 
 Full report at:
-/tmp/clojure-5220806841437439765.edn
+/tmp/clojure-9015756636157822477.edn
