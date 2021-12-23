@@ -26,14 +26,52 @@ RUN apt-get -y update && apt-get -y upgrade && \
     mkdir -p /downloads && \
     cd /downloads && \
     wget https://downloads.asterisell.com/aoc/python-gtop_2.32.0+dfsg-1_amd64.deb && \
-    dpkg -i python-gtop_2.32.0+dfsg-1_amd64.deb
+    dpkg -i python-gtop_2.32.0+dfsg-1_amd64.deb && \
+    apt-get clean
 
-# Install recent compilers
+# Install recent GHC compiler using ghcup
+
+RUN apt-get install -y \
+            git jq bc make automake \
+            rsync htop curl build-essential \
+            pkg-config libffi-dev libgmp-dev \
+            libssl-dev libtinfo-dev libsystemd-dev \
+            zlib1g-dev make g++ wget libncursesw5 libtool autoconf && \
+    apt-get clean
+
+ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
+
+RUN bash -c "curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh" && \
+    bash -c "curl -sSL https://get.haskellstack.org/ | sh"
+
+ENV PATH=${PATH}:/root/.local/bin
+ENV PATH=${PATH}:/root/.ghcup/bin
+
+# Add ghcup to PATH
+# Install cabal and GHC
+RUN bash -c "ghcup upgrade" && \
+    bash -c "ghcup install cabal 3.6.2.0" && \
+    bash -c "ghcup set cabal 3.6.2.0" && \
+    bash -c "ghcup install ghc 9.2.1" && \
+    bash -c "ghcup set ghc 9.2.1" && \
+    bash -c "echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc" && \
+    bash -c "echo export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc" && \
+    bash -c "source $HOME/.bashrc" && \
+    echo "" && \
+    echo "I'm saving the container image. Wait some time. Don't worry!" && \
+    echo ""
+
+RUN bash -c "cabal update"
+
+# Install Java and Clojure
 
 RUN apt-get -y install \
                  llvm llvm-dev \
-                 ghc \
-                 openjdk-17-jdk clojure
+                 openjdk-17-jdk \
+                 clojure libdata-priority-map-clojure && \
+    apt-get clean
+
+# Install SBCL
 
 COPY docker-files/install-quicklisp.lisp /downloads/install-quicklisp.lisp
 
@@ -48,8 +86,6 @@ RUN cd /downloads && \
     yes "" | sbcl --script install-quicklisp.lisp && \
     curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install && \
     chmod u+x install && ./install && rm install
-
-RUN apt-get -y install libdata-priority-map-clojure
 
 # Download the datasets, but do not install them.
 # NOTE: the datasets will be installed on the volume, from another script,
