@@ -11,7 +11,7 @@ tmp/
 /benchmarks/run_markup/
 /benchmarks/results/
 
-/apps/show-benchmarks/data
-/apps/show-benchmarks/code
+/apps/show-benchmarks/websites/linux/code/
+/apps/show-benchmarks/websites/linux/data/
 
 /docker-files/check-steps/
