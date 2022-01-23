@@ -4,10 +4,14 @@ tmp/
 
 *.py[cod]
 *.egg
-build
-htmlcov
 
-benchmarks/bencher/tmp
-benchmarks/bencher/run_logs/
-benchmarks/bencher/run_markup/
+/benchmarks/data-files/
+/benchmarks/summary/
+/benchmarks/run_logs/
+/benchmarks/run_markup/
+/benchmarks/results/
 
+/apps/show-benchmarks/data
+/apps/show-benchmarks/code
+
+/docker-files/check-steps/

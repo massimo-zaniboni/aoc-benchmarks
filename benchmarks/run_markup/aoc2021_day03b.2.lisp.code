@@ -1,0 +1,262 @@
+
+;; SPDX-License-Identifier: LGPL-3.0-or-later
+;; Copyright (C) 2021 Massimo Zaniboni &lt;mzan&#64;dokmelody.org&gt;
+
+;; WARNING: I&apos;m learning CL
+
+(ql:quickload :trivia)     ;; common macro and functions and optimal pattern matching
+(ql:quickload :alexandria) ;; common CL extensions
+(ql:quickload :trivial-types)  ;; common types
+(ql:quickload :defstar)    ;; add type annotations
+(ql:quickload :str)        ;; Common string manipulation functions
+(ql:quickload :parse-float)
+(ql:quickload :iterate)
+(ql:quickload :let-plus)          ;; extend &quot;let&quot;
+(ql:quickload :array-operations)  ;; rich management of arrays
+(ql:quickload :cffi)
+(ql:quickload :bit-smasher)
+
+(defpackage :main
+  (:import-from :alexandria)
+  (:import-from :trivial-types :proper-list :tuple)
+  (:use :cl :defstar :trivia :parse-float :iterate :let-plus :cffi)
+  (:export main))
+
+(in-package :main)
+
+(declaim (optimize (speed 3) (debug 0) (safety 0)))
+
+(declaim (type fixnum +read-buff-size+))
+(defconstant +read-buff-size+ (ash 1 16))
+
+(declaim (type fixnum +initial-bits+))
+(defconstant +initial-bits+ 26)
+
+(deftype ubyte8 () &apos;(unsigned-byte 8))
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Import Judy arrays data structure from C to CL
+
+(define-foreign-library libJudy
+  (:unix &quot;libJudy.so&quot;)
+  (t (:default &quot;libJudy&quot;)))
+
+(use-foreign-library libJudy)
+
+(defctype judy-tree! (:pointer :pointer))
+
+(defctype judy-tree :pointer)
+
+(defctype judy-value! (:pointer :long))
+
+(defcfun &quot;JudyLIns&quot; judy-value! (tree judy-tree!) (index :long) (error :pointer))
+
+(defcfun &quot;JudyLCount&quot; :unsigned-int (tree judy-tree) (index1 :long) (index2 :long) (error :pointer))
+
+(defcfun &quot;JudyLFirst&quot; :pointer (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;JudyLLast&quot; :pointer (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;JudyLPrev&quot; :pointer (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;JudyLNext&quot; :pointer (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;Judy1Set&quot; :int (tree judy-tree!) (index :long) (error :pointer))
+
+(defcfun &quot;Judy1First&quot; :int (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;Judy1Last&quot; :int (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;Judy1Count&quot; :unsigned-int (tree judy-tree) (index1 :long) (index2 :long) (error :pointer))
+
+(defcfun &quot;Judy1Prev&quot; :int (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;Judy1Next&quot; :int (tree judy-tree) (index! judy-value!) (error :pointer))
+
+(defcfun &quot;Judy1Test&quot; :int (tree judy-tree) (index :long) (error :pointer))
+
+(defmacro judy-l-ins (tree! index)
+  `(foreign-funcall &quot;JudyLIns&quot; judy-tree! ,tree! :long ,index :pointer ,(null-pointer) :pointer))
+
+(defmacro judy-l-ins! (tree! index value)
+  `(setf (mem-ref ,(judy-l-ins tree! index) :long) ,value))
+
+(defmacro judy-l-first (tree index!)
+  `(foreign-funcall &quot;JudyLFirst&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :pointer))
+
+(defmacro judy-l-next (tree index!)
+  `(foreign-funcall &quot;JudyLNext&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :pointer))
+
+(defmacro judy-l-prev (tree index!)
+  `(foreign-funcall &quot;JudyLPrev&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :pointer))
+
+(defmacro judy-l-last (tree index!)
+  `(foreign-funcall &quot;JudyLLast&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :pointer))
+
+(defmacro judy-1-set! (tree! index)
+  `(foreign-funcall &quot;Judy1Set&quot; judy-tree! ,tree! :long ,index :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-first (tree index!)
+  `(foreign-funcall &quot;Judy1First&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-last (tree index!)
+  `(foreign-funcall &quot;Judy1Last&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-next (tree index!)
+  `(foreign-funcall &quot;Judy1Next&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-prev (tree index!)
+  `(foreign-funcall &quot;Judy1Prev&quot; judy-tree ,tree judy-value! ,index! :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-test (tree index)
+  `(foreign-funcall &quot;Judy1Test&quot; judy-tree ,tree :long ,index :pointer ,(null-pointer) :int))
+
+(defmacro judy-1-count (tree index1 index2)
+  `(foreign-funcall
+               &quot;Judy1Count&quot;
+               judy-tree ,tree
+               :long ,index1
+               :long ,index2
+               :pointer ,(null-pointer)
+               :unsigned-int))
+
+(defmacro judy-l-count (tree index1 index2)
+  `(foreign-funcall
+               &quot;JudyLCount&quot;
+               judy-tree ,tree
+               :long ,index1
+               :long ,index2
+               :pointer ,(null-pointer)
+               :unsigned-int))
+
+; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Day 03b
+
+; NOTE: use less bit than 64 bit for avoiding negative sign problems
+(defparameter +group-by+ 62)
+
+(defun file-&gt;judy-tree (s)
+  &quot;Store the numbers as ordered index of a (compressed) Judy array.&quot;
+  (iter   (with root-tree! = (foreign-alloc :pointer :initial-element (null-pointer)))
+          (for line in-stream s using #&apos;read-line)
+          (for bits# first (length line) then bits#)
+          (for pass# first (ceiling bits# +group-by+) then pass#)
+          (after-each
+             ; Decompose the long line in chunks of +group-by+ bit and store them in nested judy-trees.
+             ; The last JudyTree of the sequence is a Judy1 set.
+             ; NOTE:
+             ; * each tree is a pointer pointing to the new root of the tree, after the insertion of the indeex
+             ; * each slot is a placeholder where putting the value associated to the index, but its change does not afect the root of the tree
+             (iter
+               (with slot! = root-tree!)
+               (for line-start from 0 below bits# by +group-by+)
+               (for pass from 0 below pass#)
+               (for last-pass? = (= pass (- pass# 1)))
+               (for pass-bits# = (if last-pass? (mod bits# +group-by+) +group-by+))
+               (for line-end = (+ line-start pass-bits#))
+               (for v = (parse-integer line :start line-start :end line-end :radix 2))
+               (after-each
+                 (if last-pass?
+                     (judy-1-set! slot! v)
+                     (setf slot! (judy-l-ins slot! v)))))
+               (finally (return nil)))
+
+          (finally (return (values (mem-ref root-tree! :pointer) pass# bits#)))))
+
+(defun judy-tree-rating-pass (tree bits# last-pass? follow-max?)
+  &quot;Count for every bit the upper and lower elements inside the Judy array, until a unique element is found.&quot;
+  (iter
+     (with result = (make-sequence &apos;(vector bit) bits# :initial-element 0))
+     (with index1 = (foreign-alloc :long :initial-element 0))
+     (with index2 = (foreign-alloc :long :initial-element -1))
+     (with index! =  (foreign-alloc :long :initial-element 0))
+     (with n = (if last-pass?
+                   (judy-1-count tree (mem-ref index1 :long) (mem-ref index2 :long))
+                   (judy-l-count tree (mem-ref index1 :long) (mem-ref index2 :long))))
+
+     (for i from 0 below bits#)
+      (after-each
+        ; search for next bit
+        (setf (sbit result i) 1)
+        (setf (mem-ref index! :long) (bit-smasher:bits-&gt;int result))
+
+        (if last-pass?
+            (judy-1-first tree index!)
+            (judy-l-first tree index!))
+
+        (let* ((n1 (if last-pass?
+                       (judy-1-count tree (mem-ref index! :long) (mem-ref index2 :long))
+                       (judy-l-count tree (mem-ref index! :long) (mem-ref index2 :long))))
+               (n0 (- n n1))
+               (empty-1bit? (zerop n1))
+               (empty-0bit? (zerop n0))
+               (take-1bit?  (if follow-max?
+                                (and (not empty-1bit?) (&gt;= n1 n0))
+                                (and (not empty-1bit?) (&lt; n1 n0)))))
+
+           (cond
+             ((and empty-1bit? empty-0bit?)
+                (leave (mem-ref index! :long)))
+
+             (take-1bit?
+                (setf (mem-ref index1 :long) (mem-ref index! :long))
+                (setf n n1))
+             (t
+                ; ASSERT if it is greather than n1, then n0 &gt; 0
+                (setf (sbit result i) 0)
+                (if last-pass?
+                    (judy-1-prev tree index!)
+                    (judy-l-prev tree index!))
+                (setf (mem-ref index2 :long) (mem-ref index! :long))
+                (setf n n0)))))
+      (finally (return (bit-smasher:bits-&gt;int result)))))
+
+(defun judy-tree-rating (tree pass# bits# follow-max?)
+  &quot;Apply judy-tree-rating-pass to each nested index of the array. Needed when indexes are wider than +group-by+&quot;
+  (iter
+     (with curr-index = (foreign-alloc :long :initial-element 0))
+     (with curr-tree = tree)
+     (with (the bignum result) = 0)
+     (for pass from 0 below pass#)
+     (for last-pass-bits# first (mod bits# +group-by+) then last-pass-bits#)
+     (for last-pass? = (= pass (- pass# 1)))
+     (for pass-bits# = (if last-pass? last-pass-bits# +group-by+))
+     (for shift-result = (cond
+                           (last-pass? 0)
+                           ((= pass 0) last-pass-bits#)
+                           (t +group-by+)))
+     (after-each
+        (let* ((index (judy-tree-rating-pass curr-tree pass-bits# last-pass? follow-max?)))
+          (unless last-pass?
+                  (setf (mem-ref curr-index :long) index)
+                  (setf curr-tree (mem-ref (judy-l-first curr-tree curr-index) :pointer)))
+
+          (setf result (+ result (ash index shift-result)))))
+     (finally (return result))))
+
+(defun day3b2 (s)
+    (let+ (((&amp;values tree pass# bits#) (file-&gt;judy-tree s))
+           (oxygen (judy-tree-rating tree pass# bits# t))
+           (co2 (judy-tree-rating tree pass# bits# nil)))
+      (values (* oxygen co2) oxygen co2)))
+
+(defun main () (format t &quot;~a~%&quot; (day3b2 *standard-input*)))
+
+#|
+(day3b2 #P&quot;data/day-3-test.txt&quot;)
+ ; =&gt; 230, 23, 10
+
+(day3b2 #P&quot;data/day-3.txt&quot;)
+ ; =&gt; 4105235, 2735, 1501
+
+(day3b2 #P&quot;/home/zanibonim/tmp/advent-of-code/datasets-01/aoc2021_day3b/aoc2021-day3b-input1000.txt&quot;)
+ ; =&gt; 4105235, 2735, 1501
+
+(day3b2 #P&quot;/home/zanibonim/tmp/advent-of-code/datasets-01/aoc2021_day3a/aoc2021-day3a-input100000.txt&quot;)
+ ; =&gt; 356913958942791247617705918285570893096041618195840162127310, 461087838160523256683085674642, 774069340815133614804932891055
+
+;    1000001 lines each with a 100 bit number
+;    Download 3-1000001-100.in.xz (14MiB compressed / 97MiB decompressed)
+;    Part 1: 386463119445733053722557199393548794069517420395751036911156
+;    Part 2: 356913958942791247617705918285570893096041618195840162127310
+|#

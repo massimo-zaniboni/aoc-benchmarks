@@ -1,0 +1,61 @@
+
+-- SPDX-License-Identifier: ISC
+-- Copyright (c) 2021 Paolo Martini &lt;mrtnpaolo&#64;protonmail.com&gt;
+
+module Main (main) where
+
+import System.Environment (getArgs)
+import Text.Printf (printf)
+import qualified Data.Array.Unboxed as A
+
+import Numeric
+import Data.List (transpose)
+
+import Data.Ix
+import GHC.Arr
+import Data.Map (Map)
+import qualified Data.Map as M
+import Data.Foldable (toList)
+
+import Data.List (foldl&apos;)
+import Data.Map.Strict qualified as M&apos; (toAscList,fromListWith)
+
+main =
+  do inp &lt;- getInput lines 3
+     print (part2 inp)
+
+part2 xs = o₂ * co₂
+  where
+    o₂  = sieve 0 most  xs
+    co₂ = sieve 0 least xs
+
+    sieve _ _ [x] = toDecimal x
+    sieve n p xs  = sieve (n+1) p xs&apos;
+      where
+        digit = p (map (!! n) xs)
+        xs&apos;   = filter (\x -&gt; digit == x !! n) xs
+
+most xs
+  | count (&apos;0&apos;==) xs &gt; count (&apos;1&apos;==) xs = &apos;0&apos;
+  | otherwise                           = &apos;1&apos;
+
+least xs
+  | most xs == &apos;0&apos; = &apos;1&apos;
+  | otherwise      = &apos;0&apos;
+
+toDecimal xs = let [(n,_)] = readBin xs in n
+
+-- Utilities
+
+getInput :: (String -&gt; a) -&gt; Int -&gt; IO a
+getInput parse day = parse &lt;$&gt;  getContents
+
+getInputLines :: (String -&gt; a) -&gt; Int -&gt; IO [a]
+getInputLines parse day = getInput (map parse . lines) day
+
+count :: (a -&gt; Bool) -&gt; [a] -&gt; Int
+count p xs = foldl&apos; f 0 xs
+  where
+    f n x | p x = n+1 | otherwise = n
+
+

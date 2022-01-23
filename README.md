@@ -4,75 +4,64 @@ I customized https://salsa.debian.org/benchmarksgame-team/benchmarksgame for sup
 
 You can see the results on https://aoc-benchmarks.dokmelody.org
 
-For submitting new code to test, you can add issues and/or pull-requests on https://github.com/massimo-zaniboni/aoc-benchmarks 
+For submitting new code to test, you can add issues and/or pull-requests on https://github.com/massimo-zaniboni/aoc-benchmarks . The program must read data from the standard input, and write the result to stdout, without adding a new-line at the end. Add a license in the header of the code. See examples of programs in directory ``benchmarks/programs/``.
 
-* The submitted program must read from the standard input the input data file, and write the result to stdout, without adding a new-line at the end.
-* Add a license in the header of the code.
-* Add eventually notes about the code.
-* See examples of programs in directory ``benchmarks/bencher/programs/``
-* I will review the code and fix minor problems.
-
-You can clone and customize this tool for benchmarking other type of projects.
-
-Each benchmark (called also "test") has different input-size. Each program is tested starting from smaller input-sizes. It fails if it is not able to process all the input-sizes. The link on "fail" and "secs" shows more details about runs on smaller input-sizes.
+Each benchmark (called also "test") has different input-size. Each program is tested starting from smaller input-sizes. 
 
 # Design
 
 I reused entirely the *bencher* utility of the https://salsa.debian.org/benchmarksgame-team/benchmarksgame project. 
 
-The *bencher* uses ``python-gtop``. I were not able to compile it under NixOS, my OS of choice, so I created an Ubuntu Docker image, supporting it. This Ubuntu Docker container it is used also for compiling and benchmarking the code. The directory ``benchmarks`` will be also a volume of the ``aoc-benchmarks`` container, inside the container directory ``/benchmarks``. So every change done by the Docker container will be stored in the native file system. So operations on ``benchmarks`` directory are done by a Docker container configured with the proper tools.
+The *bencher* uses ``python-gtop``, that it is not fully supported from many Linux distributions. So I created an Ubuntu Docker image, supporting it. This Ubuntu Docker container it is used also for compiling and benchmarking the code.
+
+The Docker container will live only during the benchmarks, then it will be destroyed. The directory ``benchmarks`` will be mounted inside the Docker container. It contains the input programs in ``benchmars/programs``, and it will contain the results of benchmarks at the end. 
 
 # Installation
 
-Requirements are:
+Required packages:
 
-* Docker or Podman for generating the container.
-* A lot of space will be used for the Ubuntu image, tools and benchmark data sets.
+* ``docker`` or ``podman``, for creating the compilation and benchmark environment (it will use a lot of storage)
+* ``tar`` with ``xz`` decompression support, for extracting the (big) datasets
+* ``php`` interpreter for seeing the results
 
-Set the variable ``DOCKER_CMD`` in ``container.sh``, for using ``Podman`` or ``Docker``.
-
-For installing the image
+Execute
 
 ``` sh
-./container.sh install
+./aoc-benchmarks.sh install
 ```
 
-This command will execute the instructions inside ``Dockerfile``. It will also install the benchmark datasets, in ``benchmarks/bencher/tmp``, downloading them from a remote server.
+for creating a Docker image, with a rather big Ubuntu based compilation and benchmark environment. It will download most recent version of compilers. ``Dockerfile`` contains the image installation instructions. 
 
 # Running benchmarks
 
-For executing the new/modified benchmarks
+Initially
 
 ``` sh
-./container.sh run-new
+./aoc-benchmarks.sh run-all
 
 ```
 
-For executing again all benchmarks (very slow):
+It will execute all benchmarks. It will be very slow (i.e. many hours). These results depends from the hardware, so they cannot be ported between different hosts. 
 
-```
-./container.sh run-all
-```
+This command must be executed inside an host with all resources given to the benchmark code (e.g. no open applications and running services). Fast benchmarks will be repeated more than one time, and only the best result will be kept. So it is tolerable temporary fluctuations in the resources of the host. Very long benchmarks will be executed only one time, but in these case some seconds of difference are not much important.
 
-For accessing and testing the container, using a shell
+For executing only new or changed benchmarks (i.e. when the source code in ``bencher/programs`` is newer than the result of the benchmark)
 
 ``` sh
-./container.sh login
+./aoc-benchmarks.sh run-new
 ```
 
-The ``/benchmarks`` directory is a volume mapped to the local ``benchmarks`` directory of the project. So every change to it will be permanent, while changes to other directories will be lost after the exit. Changes can be tested in the container, then written in the``Dockerfile``. The image can be upgraded with the content of the new ``Dockerfile`` calling again ``./container.sh install``: the content of ``benchmarks`` directory will be not touched, except the directory ``benchmarks/bencher/tmp`` containing the datasets.
+Benchmarks can be interrupted pressing ``Control-c`` and restarted with ``./aoc-benchmarks.sh run-new`` command. So they can be executed in an incremental way.
 
 # Viewing benchmark results
-
-## Locally (i.e. no production)
 
 ``` sh
 ./container.sh web
 ```
 
-Launch a PHP local web-server (i.e. not good for production) accepting connections on 8000 port. The 8000 port of the Docker container is exported to the 8000 port of the host system.
+It launches a PHP local web-server (i.e. not good for production) accepting connections on 8000 port. Connect your browser to ``http://localhost:8000/index.html``.
 
-Connect your browser to ``http://localhost:8000/index.html``.
+Stop with ``Control-c``.
 
 # Uninstall
 
@@ -86,7 +75,7 @@ For removing completely the image, in case the project is not anymore needed
 
 ## Adding a new program to benchmark
 
-Add programs in the ``benchmarks/bencher/programs/<task-name>/`` directory.
+Add programs in the ``benchmarks/programs/<task-name>/`` directory.
 
 Programs name must follow a fixed pattern, like ``task_name.hs-1.hs`` or ``another_task.lisp-2.lisp``.
 
@@ -100,18 +89,18 @@ IMPORTANT: never use "-" in the task name, i.e. "fast_path" is good, "fast-path"
 
 ## Debugging new added programs 
 
-In ``benchmarks/bencher/run_logs`` there is the compilation and execution log of last executed programs. More details are in ``benchmarks/bencher/tmp/`` there is the state of last compiled code.
+In ``benchmarks/run_logs`` there is the compilation and execution log of last executed programs. More details are in ``benchmarks/bencher/tmp/`` there is the state of last compiled code.
 
-The first run of a program, set the expected result of the task. Also newlines at the end or start of the result counts. So make sure that the output will be exactly the same. In case of differences, fix the code, and execute ``./run-all-tests.sh`` (it will reset the expected result). The expected output is inside ``benchmarks/bencher/tmp/`` directory, inside ``*.out`` files.
+The first run of a program, set the expected result of the task. Also newlines at the end or start of the result counts. So make sure that the output will be exactly the same. The expected output is inside ``benchmarks/data-files/`` directory, inside ``*.out`` files. In case of unintended difference, delete them.
 
 ## Adding a new benchmark to test
 
 Given a benchmark name like ``fast_path``:
 
-* add ``fast_path`` in ``onlydirs`` inside ``benchmarks/bencher/makefiles/my.linux.ini``
-* create directory ``benchmarks/bencher/programs/fast_path``
-* add ``fast_path`` inside ``benchmarks/mybenchmarks/desc/test.csv``, and describe the task
-* add ``fast_path`` inside ``benchmarks/mybenchmarks/websites/linux/include.csv``
+* add ``fast_path`` in ``onlydirs`` inside ``benchmarks/makefiles/my.linux.ini``
+* create directory ``benchmarks/programs/fast_path``
+* add ``fast_path`` inside ``apps/show-benchmarks/desc/test.csv``, and describe the task
+* add ``fast_path`` inside ``apps/show-benchmarks/websites/linux/include.csv``
 
 IMPORTANT: never use "-" in the names, i.e. "fast_path" is good, "fast-path" no.
 
@@ -123,36 +112,31 @@ The ideal solution is including the code generating then, and calling it during 
 
 Another solution is using some private torrent service, or some internet cache. But the technology is not in widespread usage.
 
-The temporary pragmatic solution is putting an lrzip compressed version on one of my server. 
-
-Datasets are downloaded and decompressed in ``benchmarks/bencher/tmp`` directory. In this directory, bencher will put also the results of benchmarks. This is not done directly:
-
-* the ``Dockerfile`` decompress them in ``/downloads/datasets`` directory
-* the ``files/entrypoint.sh`` create at every startup the symbolic links to these files
+The temporary pragmatic solution is putting a tar xz compressed file on one of my server. 
 
 ### Generating new compressed data-sets
 
 For generating new data-sets:
 
-* create a temporary working directory ``datasets-XY``, where `XY` are progressive numbers respect the numbers used in ``docker-files/init-datasets.hs``
+* create a temporary working directory ``datasets-XY``, where `XY` are progressive numbers respect the numbers used in ``aoc-benchmarks.sh``
 * for each program ``foo`` create a directory ``datasets-XY/foo``
 * for each test suite numbered like 100 or 1000 create ``foo-input100.txt`` and ``foo-input1000.txt``
 * in case of tests sharing the same input data set, like ``aoc2021_day1a`` and ``aoc2021_day1b``, put inside ``aoc2021-day1b`` directory a relative symbolic link, e.g. ``ln --symbolic -r aoc2021_day1a/aoc2021-day1a-input100.txt aoc2021-day1b/aoc2021_day1b-input100.txt``
-* create a tarred lrzip archive ``lrztar datasets-XY``
-* add instructions in `docker-files/init-datasets.sh` for adding its content to ``benchmarks/bencher/tmp`` directory
-* rebuild the image with `./container-install.sh`
-* launch new tests with `./container-run-new-benchmarks.sh`
+* create a tarred xz archive ``tar cJf datasets-XY.tar.xz datasets-XY``
+* publish it on some server
+* add instructions in ``aoc-benchmarks.sh`` for installing it
+* update with ``./aoc-benchmarks.sh update``
 
 ## Adding a new language
 
 Assuming a new language ``foo`` with suffix ``f`` (IMPORTANT: never use "-" in the names of languages):
 
-* add ``foo.php`` inside ``benchmarks/mybenchmarks/websites/linux/version``
-* add suffix ``f`` in section ``[build] make`` of ``benchmarks/bencher/makefiles/my.linux.ini``
-* study the settings in ``benchmarks/bencher/makefiles/my.linux.ini`` and ``benchmarks/bencher/makefiles/my.linux.Makefile`` and replicate them for the new ``foo`` language
-* add the language description in ``benchmarks/mybenchmarks/desc/lang.csv``. The description contains also a list of preferred programming languages to compare against it
-* in case of compilation errors check ``benchmarks/mybenchmarks/tmp`` directory
-* for executing again (only) the code with problems, use ``touch benchmarks/mybenchmarks/programs/<your-code> && ./container.sh run-new`` 
+* add ``foo.php`` inside ``apps/show-benchmarks/websites/linux/version``
+* add suffix ``f`` in section ``[build] make`` of ``benchmarks/makefiles/my.linux.ini``
+* study the settings in ``benchmarks/makefiles/my.linux.ini`` and ``benchmarks/makefiles/my.linux.Makefile`` and replicate them for the new ``foo`` language
+* add the language description in ``apps/show-benchmarks/desc/lang.csv``. The description contains also a list of preferred programming languages to compare against it
+* in case of compilation errors check ``benchmarks/data-files`` directory
+* for executing again (only) the code with problems, use ``touch benchmarks/programs/<your-code> && ./aoc-benchmarks.sh run-new`` 
 
 # Credits
 

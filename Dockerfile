@@ -37,18 +37,16 @@ RUN apt-get install -y \
             pkg-config libffi-dev libgmp-dev \
             libssl-dev libtinfo-dev libsystemd-dev \
             zlib1g-dev make g++ wget libncursesw5 libtool autoconf && \
-    apt-get clean
-
-ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
-
-RUN bash -c "curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh" && \
+    apt-get clean && \
+    BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
+    bash -c "curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh" && \
+    BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
     bash -c "curl -sSL https://get.haskellstack.org/ | sh"
 
+ENV BOOTSTRAP_HASKELL_NONINTERACTIVE=1
 ENV PATH=${PATH}:/root/.local/bin
 ENV PATH=${PATH}:/root/.ghcup/bin
 
-# Add ghcup to PATH
-# Install cabal and GHC
 RUN bash -c "ghcup upgrade" && \
     bash -c "ghcup install cabal 3.6.2.0" && \
     bash -c "ghcup set cabal 3.6.2.0" && \
@@ -56,10 +54,7 @@ RUN bash -c "ghcup upgrade" && \
     bash -c "ghcup set ghc 9.2.1" && \
     bash -c "echo PATH="$HOME/.local/bin:$PATH" >> $HOME/.bashrc" && \
     bash -c "echo export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc" && \
-    bash -c "source $HOME/.bashrc" && \
-    echo "" && \
-    echo "I'm saving the container image. Wait some time. Don't worry!" && \
-    echo ""
+    bash -c "source $HOME/.bashrc"
 
 RUN bash -c "cabal update"
 
@@ -69,7 +64,12 @@ RUN apt-get -y install \
                  llvm llvm-dev \
                  openjdk-17-jdk \
                  clojure libdata-priority-map-clojure && \
-    apt-get clean
+    apt-get clean && \
+    cd /downloads && \
+    curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install && \
+    chmod u+x install && \
+    ./install && \
+    rm install
 
 # Install SBCL
 
@@ -83,22 +83,18 @@ RUN cd /downloads && \
     cd /downloads && \
     rm -r -f sbcl-* && \
     wget https://beta.quicklisp.org/quicklisp.lisp && \
-    yes "" | sbcl --script install-quicklisp.lisp && \
-    curl -sLO https://raw.githubusercontent.com/babashka/babashka/master/install && \
-    chmod u+x install && ./install && rm install
+    yes "" | sbcl --script install-quicklisp.lisp
 
-# Download the datasets, but do not install them.
-# NOTE: the datasets will be installed on the volume, from another script,
-# otherwise there will be problems between Docker image and Docker volume on host.
+# Install DEV libraries
 
-RUN mkdir -p /downloads && \
-    echo "datasets-01 v1.6" && \
-    cd /downloads && \
-    wget https://downloads.asterisell.com/aoc/datasets-01.tar.lrz
+RUN apt-get -y install libjudy-dev && \
+    apt-get clean
 
-COPY docker-files/init-datasets.sh /init-datasets.sh
+# Install bencher utility
 
-EXPOSE 8000
+COPY apps/bencher /bencher
 
-VOLUME  ["/benchmarks"]
-WORKDIR /benchmarks
+# The default CMD to run
+LABEL description="Compile and benchmark aoc-benchmarks programs."
+WORKDIR /bencher
+CMD bash -c "python bin/bencher.py"
