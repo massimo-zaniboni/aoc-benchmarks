@@ -40,13 +40,13 @@ foreach($Data as $k => $row){
 
   echo "      <tr>\n";
 
-  echo '      <td><a href="./performance.php?test=', $testlink, '"><span>', $testname, "</span></a></td>\n";
+  echo '      <td>', $testname, "</td>\n";
 
-  echo '      <td>', count($ListPrograms[$testKey]) ,"</td>\n";
+  echo '      <td><a href="./performance.php?test=', $testlink, '"><span>', count($ListPrograms[$testKey]) ,"<small><small><small> (list all)</small></small></small></span></a></td>\n";
   echo '      <td>', count($ListLangs[$testKey]) ,"</td>\n";
 
   $nav = '"./program.php?test='.$k.'&amp;lang='.$lang.'&amp;id='.$id.'"';
-  echo "        <td><a href=$nav>", "<span>$noSpaceName</span></a>\n";
+  echo "        <td><a href=$nav>", "<span>$noSpaceName <small><small><small>(source code)</small></small></small></span></a>\n";
 
   if ($row[DATA_ELAPSED]>0){ $e = number_format($row[DATA_ELAPSED],2); } else { $e = '?'; }
   echo "        <td", $elapsed_td, ">", $e, "\n";
@@ -93,8 +93,8 @@ foreach($UnsolvedTests as $testKey) {
   $testlink = $test[TEST_LINK];
 
   echo "      <tr>\n";
-  echo '      <td><a href="./performance.php?test=', $testlink, '"><span>', $testname, "</span></a></td>\n";
-  echo '      <td>', count($ListPrograms[$testKey]) ,"</td>\n";
+  echo '      <td>', $testname, "</td>\n";
+  echo '      <td><a href="./performance.php?test=', $testlink, '"><span>', count($ListPrograms[$testKey]) ,"<small><small><small> (list all)</small></small></small></span></a></td>\n";
   echo '      <td>', count($ListLangs[$testKey]) ,"</td>\n";
   echo "      </tr>\n";
 

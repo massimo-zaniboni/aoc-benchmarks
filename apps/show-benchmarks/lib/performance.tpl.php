@@ -73,7 +73,7 @@ if ($Sort=='elapsed'){
 <?
 echo "      <tr>\n";
 echo "        <th>&#215;\n";
-echo '        <th>source', "\n";
+echo '        <th>source code', "\n";
 echo "        <th", $elapsed_th,">", $elapsed_nav_open, "secs", $elapsed_nav_close, "\n";
 echo "        <th", $mem_th,">", $mem_nav_open, "mem", $mem_nav_close, "\n";
 echo "        <th", $gzbytes_th,">", $gzbytes_nav_open, "gz", $gzbytes_nav_close, "\n";
@@ -137,7 +137,7 @@ foreach($Succeeded as $d){
   $HtmlName = $HtmlName.IdName($d[DATA_ID]);
   $nav = '"./program.php?test='.$SelectedTest.'&amp;lang='.$k.'&amp;id='.$id.'"';
   $navToLangMeasurements = '"./measurements.php?lang='.$k.'"';
-  echo "        <td><a href=$nav><span>", "$HtmlName</span></a>\n";
+  echo "        <td><a href=$nav><span>", "$HtmlName<small><small><small> (source code)</small></small></small></span></a>\n";
 
   $e = PTime($d[DATA_ELAPSED]);
   echo "        <td", $elapsed_td, "><a href=$navToLangMeasurements><span>", $e, "</span></a>", "\n";
@@ -168,7 +168,7 @@ foreach($Langs as $k => $v){
       $HtmlName = $Langs[$k][LANG_FULL].IdName($d[DATA_ID]);
       $nav = '"./program.php?test='.$SelectedTest.'&amp;lang='.$k.'&amp;id='.$id.'"';
       $navToLangMeasurements = '"./measurements.php?lang='.$k.'"';
-      echo "        <td><a href=$nav><span>", "$HtmlName</span></a>\n";
+      echo "        <td><a href=$nav><span>", "$HtmlName<small><small><small> (source code)</small></small></small></span></a>\n";
 
       $message = "<a href=$navToLangMeasurements><span>"
                  . StatusMessage($d[DATA_STATUS])
