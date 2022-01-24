@@ -9,6 +9,8 @@ DOCKER_CMD=docker
 DATASETS="benchmarks/data-files"
 VIEWER_DIR="apps/show-benchmarks/websites/linux"
 
+REMOTE_WEB_DIR="root@dokmelody.org:/srv/www/aoc-benchmarks_dokmelody_org/aoc-benchmarks"
+
 function help() {
       echo "Valid arguments:"
       echo ""
@@ -22,6 +24,8 @@ function help() {
       echo "        execute only new/changed benchmarks"
       echo "    web"
       echo "        launch dev httpd web server on local port 8000"
+      echo "    sync-web"
+      echo "        rsync with REMOTE_WEB_DIR"
       echo "    prune"
       echo "        remove the Docker image"
       echo "    help"
@@ -140,6 +144,12 @@ case $1 in
       web)
       cd apps/show-benchmarks/websites
       php -S 0.0.0.0:8000 -d short_open_tag=On
+      ;;
+
+      sync-web)
+        rsync -rvzhP --delete --safe-links --copy-unsafe-links \
+              --chown=nginx:nginx \
+              apps/show-benchmarks/ $REMOTE_WEB_DIR
       ;;
 
       prune)
