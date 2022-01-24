@@ -91,7 +91,7 @@ IMPORTANT: never use "-" in the task name, i.e. "fast_path" is good, "fast-path"
 
 In ``benchmarks/run_logs`` there is the compilation and execution log of last executed programs. More details are in ``benchmarks/bencher/tmp/`` there is the state of last compiled code.
 
-The first run of a program, set the expected result of the task. Also newlines at the end or start of the result counts. So make sure that the output will be exactly the same. The expected output is inside ``benchmarks/data-files/`` directory, inside ``*.out`` files. In case of unintended difference, delete them.
+The first run of a program, set the expected result of the task. Also newlines at the end or start of the result counts. So make sure that the output will be exactly the same. The expected output is inside ``benchmarks/data-files/`` directory, inside ``*.out`` files. In case of unintended difference, delete them. Usually the result must terminate with a new-line.
 
 ## Adding a new benchmark to test
 
